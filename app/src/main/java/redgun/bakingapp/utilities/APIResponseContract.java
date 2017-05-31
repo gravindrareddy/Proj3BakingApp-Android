@@ -1,19 +1,15 @@
 package redgun.bakingapp.utilities;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
-
-import redgun.bakingapp.models.Recipes;
-
 /**
  * Created by gravi on 09-10-2016.
- * This class was created on-line with DB contract. This class will hold the entries of all API JSON responses
+ * This class was created in tune with DB contract. This class will hold the entries of all API JSON responses which has generic attributes lke result, results, etc
  */
 public class APIResponseContract {
 
-    static class MoviesAPIResponseEntry {
-        @SerializedName("results")
-        public ArrayList<Recipes> recipesArrayList;
-    }
+//    For example, below response
+
+//    public static class RecipesAPIResponseEntry {
+//        @SerializedName("results")
+//        public ArrayList<Recipes> recipesArrayList;
+//    }
 }

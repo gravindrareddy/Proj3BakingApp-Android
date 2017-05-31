@@ -3,6 +3,7 @@ package redgun.bakingapp.utilities;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import redgun.bakingapp.R;
 
@@ -11,6 +12,9 @@ import redgun.bakingapp.R;
  */
 
 public class Utils {
-
+    public static void showToast(Context _context, String value) {
+        if (value != null)
+            Toast.makeText(_context, value, Toast.LENGTH_LONG).show();
+    }
 
 }
