@@ -10,5 +10,5 @@
         android:layout_height="match_parent"
         android:columnWidth="@dimen/grid_item_recipe_width"
         android:gravity="center"
-        android:numColumns="auto_fit"></android.support.v7.widget.RecyclerView>
+        android:numColumns="@integer/grid_items_count_numb"></android.support.v7.widget.RecyclerView>
 </RelativeLayout>

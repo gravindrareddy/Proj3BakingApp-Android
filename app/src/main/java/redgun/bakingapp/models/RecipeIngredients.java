@@ -24,6 +24,23 @@ public class RecipeIngredients implements Parcelable {
     };
     @SerializedName("quantity")
     float recipeIngredientQuantity;
+    @SerializedName("measure")
+    String recipeIngredientMeasureUnit;
+    @SerializedName("ingredient")
+    String recipeIngredientName;
+
+    RecipeIngredients(float recipeIngredientQuantity, String recipeIngredientMeasureUnit, String recipeIngredientName) {
+        this.recipeIngredientQuantity = recipeIngredientQuantity;
+        this.recipeIngredientMeasureUnit = recipeIngredientMeasureUnit;
+        this.recipeIngredientName = recipeIngredientName;
+    }
+
+    // "De-parcel object
+    public RecipeIngredients(Parcel in) {
+        recipeIngredientQuantity = in.readInt();
+        recipeIngredientMeasureUnit = in.readString();
+        recipeIngredientName = in.readString();
+    }
 
     public float getRecipeIngredientQuantity() {
         return recipeIngredientQuantity;
@@ -48,25 +65,6 @@ public class RecipeIngredients implements Parcelable {
     public void setRecipeIngredientName(String recipeIngredientName) {
         this.recipeIngredientName = recipeIngredientName;
     }
-
-    @SerializedName("measure")
-    String recipeIngredientMeasureUnit;
-    @SerializedName("ingredient")
-    String recipeIngredientName;
-
-    RecipeIngredients(float recipeIngredientQuantity, String recipeIngredientMeasureUnit, String recipeIngredientName) {
-        this.recipeIngredientQuantity = recipeIngredientQuantity;
-        this.recipeIngredientMeasureUnit = recipeIngredientMeasureUnit;
-        this.recipeIngredientName = recipeIngredientName;
-    }
-
-    // "De-parcel object
-    public RecipeIngredients(Parcel in) {
-        recipeIngredientQuantity = in.readInt();
-        recipeIngredientMeasureUnit = in.readString();
-        recipeIngredientName = in.readString();
-    }
-
 
     @Override
     public int describeContents() {

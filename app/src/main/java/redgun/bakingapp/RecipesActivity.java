@@ -1,6 +1,7 @@
 package redgun.bakingapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -28,7 +29,6 @@ import java.util.ArrayList;
 import redgun.bakingapp.models.Recipes;
 import redgun.bakingapp.utilities.NetworkUtils;
 import redgun.bakingapp.utilities.RecyclerTouchListener;
-import redgun.bakingapp.utilities.Utils;
 
 /**
  * Created by Ravindra on 29-05-2017.
@@ -74,10 +74,7 @@ public class RecipesActivity extends AppCompatActivity implements LoaderManager.
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_recipes);
         mContext = this;
         recipes_recyclerview = (RecyclerView) findViewById(R.id.recipes_recyclerview);
@@ -88,13 +85,13 @@ public class RecipesActivity extends AppCompatActivity implements LoaderManager.
             @Override
             public void onClick(View view, int position) {
                 Recipes recipe = recipesList.get(position);
-                //ToDo - Fetch RecipeSteps & show intent to call RecipeStepDetailsActivity
-                Utils.showToast(mContext, recipe.getRecipeName() + " is selected!");
+                Intent intent = new Intent(getApplicationContext(), RecipeStepsActivity.class);
+                intent.putExtra("recipe_parcel", recipe);
+                startActivity(intent);
             }
 
             @Override
             public void onLongClick(View view, int position) {
-
             }
         }));
 

@@ -2,4 +2,10 @@
     <string name="app_name">Proj3-BakingApp-Android</string>
     <string name="base_url">https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json</string>
     <string name="internet_error">Not connected to Internet</string>
+    <string name="key_recipe_parcel">key_recipe_parcel</string>
+    <string name="key_recipe_ingredient_parcel">key_recipe_ingredient_parcel</string>
+    <string name="key_recipe_step_details_bundle">key_recipe_step_details_bundle</string>
+    <string name="key_recipe_step_video">key_recipe_step_video</string>
+    <string name="key_recipe_step_image">key_recipe_step_image</string>
+    <string name="key_recipe_step_long_description">key_recipe_step_long_description</string>
 </resources>
