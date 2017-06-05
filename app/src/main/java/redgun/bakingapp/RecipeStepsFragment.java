@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,13 @@ public class RecipeStepsFragment extends Fragment implements OnRecyclerViewItemC
     ArrayList<RecipeIngredients> recipeIngredientsesList;
 
     OnRecipeStepClickListener mOnRecipeStepClickListener;
+
+
+//    public static RecipeStepsFragment newInstance(Bundle args) {
+//        RecipeStepsFragment myFragment = new RecipeStepsFragment();
+//        myFragment.setArguments(args);
+//        return myFragment;
+//    }
 
     public RecipeStepsFragment() {
 
@@ -51,24 +59,27 @@ public class RecipeStepsFragment extends Fragment implements OnRecyclerViewItemC
         recipe_steps_recyclerview = (RecyclerView) rootView.findViewById(R.id.recipe_steps_recyclerview);
         recipe_ingridients_recyclerview = (RecyclerView) rootView.findViewById(R.id.recipe_ingridients_recyclerview);
 
+        if (getArguments() != null) {
+            recipes = getArguments().getParcelable(getResources().getString(R.string.key_recipe_parcel));
+            RecipeIngredientListAdapter recipeIngredientListAdapter = new RecipeIngredientListAdapter(recipes.getRecipeIngredients());
+            recipe_ingridients_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recipe_ingridients_recyclerview.setItemAnimator(new DefaultItemAnimator());
+            recipe_ingridients_recyclerview.setAdapter(recipeIngredientListAdapter);
+            RecipeStepsListAdapter recipeStepListAdapter = new RecipeStepsListAdapter(recipes.getRecipeSteps());
+            recipeStepListAdapter.setOnItemClickListener(mOnRecipeStepClickListener);
+            recipe_steps_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recipe_steps_recyclerview.setAdapter(recipeStepListAdapter);
+        } else {
 
-        recipes = getArguments().getParcelable(getResources().getString(R.string.key_recipe_parcel));
+        }
 
-        RecipeIngredientListAdapter recipeIngredientListAdapter = new RecipeIngredientListAdapter(recipes.getRecipeIngredients());
-        recipe_ingridients_recyclerview.setAdapter(recipeIngredientListAdapter);
-
-        RecipeStepsListAdapter recipeStepListAdapter = new RecipeStepsListAdapter(recipes.getRecipeSteps());
-        recipe_steps_recyclerview.setAdapter(recipeStepListAdapter);
-
-        recipe_steps_recyclerview.setItemAnimator(new DefaultItemAnimator());
-
-
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override
     public void onRecyclerViewItemClicked(int position, int id) {
-        mOnRecipeStepClickListener.onRecipeStepClicked(position);
+        mOnRecipeStepClickListener.
+                onRecipeStepClicked(position);
     }
 
     public interface OnRecipeStepClickListener {

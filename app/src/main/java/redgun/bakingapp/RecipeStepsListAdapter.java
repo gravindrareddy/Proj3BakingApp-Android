@@ -18,7 +18,7 @@ import redgun.bakingapp.models.RecipeSteps;
 
 public class RecipeStepsListAdapter extends RecyclerView.Adapter<RecipeStepsListAdapter.MyViewHolder> {
 
-    OnRecyclerViewItemClickListener listener;
+    RecipeStepsFragment.OnRecipeStepClickListener listener;
     private List<RecipeSteps> recipesList;
 
     public RecipeStepsListAdapter(List<RecipeSteps> recipesList) {
@@ -34,7 +34,7 @@ public class RecipeStepsListAdapter extends RecyclerView.Adapter<RecipeStepsList
     }
 
 
-    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+    public void setOnItemClickListener(RecipeStepsFragment.OnRecipeStepClickListener listener) {
         this.listener = listener;
     }
 
@@ -47,7 +47,7 @@ public class RecipeStepsListAdapter extends RecyclerView.Adapter<RecipeStepsList
 
             @Override
             public void onClick(View v) {
-                listener.onRecyclerViewItemClicked(position, -1);
+                listener.onRecipeStepClicked(position);
             }
         });
     }

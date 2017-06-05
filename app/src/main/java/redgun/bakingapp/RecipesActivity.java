@@ -86,7 +86,7 @@ public class RecipesActivity extends AppCompatActivity implements LoaderManager.
             public void onClick(View view, int position) {
                 Recipes recipe = recipesList.get(position);
                 Intent intent = new Intent(getApplicationContext(), RecipeStepsActivity.class);
-                intent.putExtra("recipe_parcel", recipe);
+                intent.putExtra(getResources().getString(R.string.key_recipe_parcel), recipe);
                 startActivity(intent);
             }
 

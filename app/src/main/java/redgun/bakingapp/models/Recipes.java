@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by gravi on 29-09-2016.
@@ -101,18 +102,8 @@ public class Recipes implements Parcelable {
     public Recipes(Parcel in) {
         recipeId = in.readInt();
         recipeName = in.readString();
-        recipeIngredients = in.readArrayList(new ClassLoader() {
-            @Override
-            public Class<?> loadClass(String name) throws ClassNotFoundException {
-                return super.loadClass(name);
-            }
-        });
-        recipeSteps = in.readArrayList(new ClassLoader() {
-            @Override
-            public Class<?> loadClass(String name) throws ClassNotFoundException {
-                return super.loadClass(name);
-            }
-        });
+        recipeIngredients = in.readArrayList(RecipeIngredients.class.getClassLoader());
+        recipeSteps = in.readArrayList(RecipeSteps.class.getClassLoader());
         this.recipeServings = in.readInt();
         this.recipeImage = in.readString();
     }

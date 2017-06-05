@@ -4,6 +4,7 @@
     <string name="internet_error">Not connected to Internet</string>
     <string name="key_recipe_parcel">key_recipe_parcel</string>
     <string name="key_recipe_ingredient_parcel">key_recipe_ingredient_parcel</string>
+    <string name="key_recipe_step_details_parcel">key_recipe_step_details_parcel</string>
     <string name="key_recipe_step_details_bundle">key_recipe_step_details_bundle</string>
     <string name="key_recipe_step_video">key_recipe_step_video</string>
     <string name="key_recipe_step_image">key_recipe_step_image</string>

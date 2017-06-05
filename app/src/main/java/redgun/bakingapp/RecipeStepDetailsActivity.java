@@ -26,8 +26,13 @@ public class RecipeStepDetailsActivity extends AppCompatActivity {
         mContext = this;
         Intent i = getIntent();
         intentReceivedRecipeStepDetails = i.getExtras().getBundle(getResources().getString(R.string.key_recipe_step_details_bundle));
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        recipeStepDetailsFragment = fragmentManager.findFragmentById(R.id.recipe_step_details_fragment);
-        recipeStepDetailsFragment.setArguments(intentReceivedRecipeStepDetails);
+
+        if (savedInstanceState == null) {
+            RecipeStepDetailsFragment newRecipeStepDetailsFragment = new RecipeStepDetailsFragment();
+            newRecipeStepDetailsFragment.setArguments(intentReceivedRecipeStepDetails);
+            getSupportFragmentManager().beginTransaction().add(R.id.recipe_step_details_fragment, newRecipeStepDetailsFragment).commit();
+        } else {
+            //ToDo
+        }
     }
 }

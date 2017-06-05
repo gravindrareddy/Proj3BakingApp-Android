@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name="redgun.bakingapp.RecipeStepsActivity"></activity>
+        <activity android:name="redgun.bakingapp.RecipeStepDetailsActivity"></activity>
     </application>
 
 </manifest>

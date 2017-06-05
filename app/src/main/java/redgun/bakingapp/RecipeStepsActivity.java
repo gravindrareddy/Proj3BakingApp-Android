@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import redgun.bakingapp.models.Recipes;
 
+
 import static redgun.bakingapp.RecipesActivity.mContext;
 
 /**
@@ -31,21 +32,21 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
         Intent i = getIntent();
         intentReceivedRecipe = i.getExtras().getParcelable(getResources().getString(R.string.key_recipe_parcel));
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        recipeStepsFragment = fragmentManager.findFragmentById(R.id.recipe_steps_fragment);
-
-
         //ToDo - Send only the relevant recipe ingredients.. Should be able to send Parcelable array
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(getResources().getString(R.string.key_recipe_parcel), intentReceivedRecipe);
-
-        recipeStepsFragment.setArguments(bundle);
+        if (savedInstanceState == null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(getResources().getString(R.string.key_recipe_parcel), intentReceivedRecipe);
+            RecipeStepsFragment recipeStepsFragment = new RecipeStepsFragment();
+            recipeStepsFragment.setArguments(bundle);
+            fragmentManager.beginTransaction().add(R.id.recipe_steps_fragment, recipeStepsFragment).commit();
+        }
 
         if (findViewById(R.id.recipe_step_details_fragment_relative_layout) != null) {
             mTwoPane = true;
             if (savedInstanceState == null) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
                 recipeStepDetailsFragment = fragmentManager.findFragmentById(R.id.recipe_step_details_fragment);
-                RecipeStepDetailsFragment recipeStepDetailsFragment = new RecipeStepDetailsFragment();
                 fragmentManager.beginTransaction().add(R.id.recipe_step_details_fragment, recipeStepDetailsFragment).commit();
             }
         } else {
@@ -60,9 +61,7 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
     public void onRecipeStepClicked(int position) {
         //ToDo - pass information to Step Details Fragment about position
         Bundle bundle = new Bundle();
-        bundle.putString(getResources().getString(R.string.key_recipe_step_video), intentReceivedRecipe.getRecipeSteps().get(position).getRecipeStepVideoURL());
-        bundle.putString(getResources().getString(R.string.key_recipe_step_image), intentReceivedRecipe.getRecipeSteps().get(position).getRecipeStepThumbnailURL());
-        bundle.putString(getResources().getString(R.string.key_recipe_step_long_description), intentReceivedRecipe.getRecipeSteps().get(position).getRecipeStepDescription());
+        bundle.putParcelable(getResources().getString(R.string.key_recipe_step_details_parcel), intentReceivedRecipe.getRecipeSteps().get(position));
         if (mTwoPane) {
             if (mSavedInstanceState == null) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
@@ -76,9 +75,8 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
                 getSupportFragmentManager().beginTransaction().replace(R.id.recipe_step_details_fragment, newRecipeStepDetailsFragment).commit();
             }
         } else {
-// ToDo - Call Intent ReceiptStepDetailActivity
-            Intent intent = new Intent(getApplicationContext(), RecipeStepsActivity.class);
-            intent.putExtra("recipe_parcel", bundle);
+            Intent intent = new Intent(getApplicationContext(), RecipeStepDetailsActivity.class);
+            intent.putExtra(getResources().getString(R.string.key_recipe_step_details_bundle), bundle);
             startActivity(intent);
         }
     }

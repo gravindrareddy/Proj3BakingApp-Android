@@ -29,7 +29,6 @@ public class RecipeIngredientListAdapter extends RecyclerView.Adapter<RecipeIngr
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.view_listitem_recipe_ingredient, parent, false);
-
         return new MyViewHolder(itemView);
     }
 
@@ -37,8 +36,6 @@ public class RecipeIngredientListAdapter extends RecyclerView.Adapter<RecipeIngr
     public void onBindViewHolder(MyViewHolder holder, int position) {
         RecipeIngredients recipeIngredient = recipesList.get(position);
         holder.recipe_ingredient_textview.setText(recipeIngredient.getRecipeIngredientName() + ": " + recipeIngredient.getRecipeIngredientQuantity() + " " + recipeIngredient.getRecipeIngredientMeasureUnit());
-
-
     }
 
     @Override
@@ -53,7 +50,6 @@ public class RecipeIngredientListAdapter extends RecyclerView.Adapter<RecipeIngr
         public MyViewHolder(View view) {
             super(view);
             recipe_ingredient_textview = (TextView) view.findViewById(R.id.recipe_ingredient_textview);
-
         }
     }
 
