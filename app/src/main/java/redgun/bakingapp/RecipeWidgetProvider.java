@@ -26,15 +26,17 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
                     R.layout.widget_recipe_ingredients);
-            // ToDo - Replace Recyler view as it is not supported by Widget Layout
-
-            remoteViews.setTextViewText(R.id.widget_recipe_ingridients_recyclerview, number);
-
-            Intent intent = new Intent(context, RecipeWidgetProvider.class);
+            Intent intent = new Intent(context, RecipesActivity.class);
             intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetId);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                    0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context,
+                    0, intent, 0);
+
+            // ToDo - SettingActivity to let user to mark an activity as Fav
+            // ToDo - If no favorite recipe, show Text message to Fav an item
+            // ToDo - Fetch ingredients of the Fav recipe & show ingredients list on widget
+            // ToDo - onclick of widget, open respective recipe
+
             remoteViews.setOnClickPendingIntent(R.id.widget_recipe_ingredients_linearlayout, pendingIntent);
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         }
