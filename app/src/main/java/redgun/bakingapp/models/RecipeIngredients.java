@@ -29,7 +29,7 @@ public class RecipeIngredients implements Parcelable {
     @SerializedName("ingredient")
     String recipeIngredientName;
 
-    RecipeIngredients(float recipeIngredientQuantity, String recipeIngredientMeasureUnit, String recipeIngredientName) {
+    public RecipeIngredients(float recipeIngredientQuantity, String recipeIngredientMeasureUnit, String recipeIngredientName) {
         this.recipeIngredientQuantity = recipeIngredientQuantity;
         this.recipeIngredientMeasureUnit = recipeIngredientMeasureUnit;
         this.recipeIngredientName = recipeIngredientName;

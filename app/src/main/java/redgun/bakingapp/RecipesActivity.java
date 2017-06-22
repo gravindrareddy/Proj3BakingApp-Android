@@ -51,12 +51,7 @@ public class RecipesActivity extends AppCompatActivity implements LoaderManager.
     public static ArrayList<Recipes> getRecipesFromURL(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.setRequestMethod("GET");
-        InputStream inputStream = new InputStream() {
-            @Override
-            public int read() throws IOException {
-                return 0;
-            }
-        };
+        InputStream inputStream;
         ArrayList<Recipes> recipesList = new ArrayList<Recipes>();
         try {
             inputStream = urlConnection.getInputStream();

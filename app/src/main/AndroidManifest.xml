@@ -12,22 +12,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="redgun.bakingapp.RecipesActivity">
+        <activity android:name=".RecipesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="redgun.bakingapp.RecipeStepsActivity"></activity>
-        <activity android:name="redgun.bakingapp.RecipeStepDetailsActivity"></activity>
-        <receiver android:name=".RecipeWidgetProvider" >
+        <activity android:name=".RecipeStepsActivity" />
+        <activity android:name=".RecipeStepDetailsActivity" />
+
+        <receiver android:name=".RecipeWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
+
+            <meta-data
+                android:name="android.appwidget.provider"
                 android:resource="@xml/recipe_widget_info" />
         </receiver>
+
+        <service
+            android:name=".WidgetService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 </manifest>
