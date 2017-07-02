@@ -1,0 +1,12 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="@string/pref_category_recipe_key"
+        android:title="Recipes">
+        <ListPreference
+            android:dependency="@string/pref_category_recipe_key"
+            android:entries="@array/listentries"
+            android:entryValues="@array/listvalues"
+            android:key="@string/pref_recipes_list_key"
+            android:title="Select Recipe" />
+    </PreferenceCategory>
+</PreferenceScreen>

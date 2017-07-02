@@ -19,12 +19,12 @@ import redgun.bakingapp.models.RecipeIngredients;
  * If you are familiar with Adapter of ListView,this is the same as adapter
  * with few changes
  */
-public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
+public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private ArrayList<RecipeIngredients> recipeIngredientList;
     private Context context = null;
     private int appWidgetId;
 
-    public ListProvider(Context context, int appWidgetId, ArrayList<RecipeIngredients> recipeIngredientList) {
+    public WidgetFactory(Context context, int appWidgetId, ArrayList<RecipeIngredients> recipeIngredientList) {
         this.context = context;
         this.appWidgetId = appWidgetId;
         this.recipeIngredientList = recipeIngredientList;
@@ -72,6 +72,7 @@ public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
                 context.getPackageName(), R.layout.view_listitem_recipe_ingredient);
         RecipeIngredients recipeIngredient = recipeIngredientList.get(position);
         remoteView.setTextViewText(R.id.recipe_ingredient_textview, recipeIngredient.getRecipeIngredientName() + ": " + recipeIngredient.getRecipeIngredientQuantity() + " " + recipeIngredient.getRecipeIngredientMeasureUnit());
+        remoteView.notify();
         return remoteView;
     }
 
@@ -82,6 +83,6 @@ public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getViewTypeCount() {
-        return 0;
+        return 1;
     }
 }
