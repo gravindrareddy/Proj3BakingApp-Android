@@ -1,7 +1,10 @@
 package redgun.bakingapp;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -20,15 +23,23 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import redgun.bakingapp.data.RecipesContract;
+import redgun.bakingapp.models.RecipeIngredients;
 import redgun.bakingapp.models.Recipes;
 import redgun.bakingapp.utilities.NetworkUtils;
 import redgun.bakingapp.utilities.RecyclerTouchListener;
@@ -113,6 +124,43 @@ public class RecipesActivity extends AppCompatActivity implements LoaderManager.
         recipes_recyclerview.setLayoutManager(mLayoutManager);
         recipes_recyclerview.setItemAnimator(new DefaultItemAnimator());
         recipes_recyclerview.setAdapter(mRecipeAdapter);
+
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put("uniqueArrays", recipesList);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
+        String arrayList = json.toString();
+
+
+        Gson gson = new GsonBuilder().create();
+        String jsonStr = gson.toJson(recipesList);
+
+
+        Uri.Builder builder = new Uri.Builder();
+        Uri _uri = builder.scheme("content")
+                .authority(getResources().getString(R.string.contentprovider_authority))
+                .appendPath(getResources().getString(R.string.contentprovider_recipe_entry)).build();
+
+        Cursor _cursor = getContentResolver().query(_uri, null, null, null, null);
+        if (_cursor != null && _cursor.getCount() > 0) {
+            _cursor.moveToFirst();
+            ContentValues recipeContentValues = new ContentValues();
+            recipeContentValues.put(RecipesContract.RecipeEntry.COLUMN_RECIPES_JSON, jsonStr);
+            getContentResolver().update(RecipesContract.RecipeEntry.CONTENT_URI, recipeContentValues, RecipesContract.RecipeEntry._ID + "=?", new String[]{_cursor.getInt(_cursor.getColumnIndex(RecipesContract.RecipeEntry._ID)) + ""});
+            _cursor.close();
+        } else {
+            //ToDo fetch data.. if no data exists in DB insert, else, update
+            ContentValues recipeContentValues = new ContentValues();
+            recipeContentValues.put(RecipesContract.RecipeEntry.COLUMN_RECIPES_JSON, jsonStr);
+            getContentResolver().insert(RecipesContract.RecipeEntry.CONTENT_URI, recipeContentValues);
+        }
+
     }
 
     @Override

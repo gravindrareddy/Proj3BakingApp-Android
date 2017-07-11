@@ -17,11 +17,11 @@ public class RecipeIngredients implements Parcelable {
         public RecipeIngredients createFromParcel(Parcel in) {
             return new RecipeIngredients(in);
         }
-
         public RecipeIngredients[] newArray(int size) {
             return new RecipeIngredients[size];
         }
     };
+
     @SerializedName("quantity")
     float recipeIngredientQuantity;
     @SerializedName("measure")

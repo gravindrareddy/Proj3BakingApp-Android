@@ -47,6 +47,11 @@
             <meta-data
                 android:name="PARENT_ACTIVITY"
                 android:value=".RecipesActivity" /></activity>
+
+        <provider
+            android:name=".data.RecipesProvider"
+            android:authorities="redgun.bakingapp" />
+
     </application>
 
 </manifest>

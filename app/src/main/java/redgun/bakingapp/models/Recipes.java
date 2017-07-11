@@ -20,11 +20,11 @@ public class Recipes implements Parcelable {
         public Recipes createFromParcel(Parcel in) {
             return new Recipes(in);
         }
-
         public Recipes[] newArray(int size) {
             return new Recipes[size];
         }
     };
+
     @SerializedName("id")
     int recipeId;
     @SerializedName("name")
