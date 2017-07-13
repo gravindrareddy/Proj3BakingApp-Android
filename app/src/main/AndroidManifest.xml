@@ -26,7 +26,6 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/recipe_widget_info" />
@@ -38,20 +37,22 @@
             android:exported="true"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
-
+        <service android:name="redgun.bakingapp.WidgetIntentService"></service>
 
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".RecipesActivity" >
+            android:parentActivityName=".RecipesActivity">
             <meta-data
                 android:name="PARENT_ACTIVITY"
-                android:value=".RecipesActivity" /></activity>
+                android:value=".RecipesActivity" />
+        </activity>
 
         <provider
             android:name=".data.RecipesProvider"
-            android:authorities="redgun.bakingapp" />
-
+            android:authorities="redgun.bakingapp"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

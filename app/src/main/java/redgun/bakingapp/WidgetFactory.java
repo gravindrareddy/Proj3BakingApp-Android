@@ -7,31 +7,28 @@ package redgun.bakingapp;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import java.util.ArrayList;
 
+import redgun.bakingapp.data.RecipesProvider;
 import redgun.bakingapp.models.RecipeIngredients;
+import redgun.bakingapp.models.Recipes;
 
 /**
  * If you are familiar with Adapter of ListView,this is the same as adapter
  * with few changes
  */
 public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
-    private ArrayList<RecipeIngredients> recipeIngredientList;
-    private Context mContext = null;
-    private int appWidgetId;
-    private AppWidgetManager mAppManager;
+    private ArrayList<RecipeIngredients> recipeIngredientList = new ArrayList<>();
+    private Context mContext;
 
-    public WidgetFactory(Context context, int appWidgetId,ArrayList<RecipeIngredients> recipeIngredientList) {
+
+    public WidgetFactory(Context context) {
         this.mContext = context;
-        this.appWidgetId = appWidgetId;
-        mAppManager = AppWidgetManager.getInstance(RecipesActivity.mContext);
-        this.recipeIngredientList = recipeIngredientList;
-        onDataSetChanged();
-        //populateListItem();
     }
 
     @Override
@@ -39,12 +36,17 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
 
     }
 
+    //This is called for the first time & every time notifyAppWidgetViewDataChanged is triggered
     @Override
     public void onDataSetChanged() {
-//ToDo:  When ever user update his preference on setting, trigger this via Notify Data Set Change
-        // get fav recipe from preferences
-        // fetch Ingredients of that Recipe
-        // Fill the recipeIngredientList
+        ArrayList<Recipes> recipesList = RecipesProvider.fetchRecipes(mContext);
+        SharedPreferences sharedpreferences = mContext.getSharedPreferences(mContext.getResources().getString(R.string.pref_main), Context.MODE_PRIVATE);
+        int selectedRecipeIndex = sharedpreferences.getInt(mContext.getResources().getString(R.string.prefered_recipe_index), -1);
+        // to get the favorite recipe index from Shared Preferences and pass appropriate Ingredients list to Fav. The default value will be empty ingredients
+        if (selectedRecipeIndex >= 0) {
+            this.recipeIngredientList = recipesList.get(selectedRecipeIndex).getRecipeIngredients();
+        }
+
     }
 
     @Override
@@ -68,9 +70,8 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
     /*
-    *Similar to getView of Adapter where instead of View
-    *we return RemoteViews
-    *
+    *getViewAt of Remote View is similar to onBindViewHolder of normal layout
+    *return RemoteViews instead of normal Views
     */
     @Override
     public RemoteViews getViewAt(int position) {
@@ -78,24 +79,6 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
                 mContext.getPackageName(), R.layout.view_listitem_recipe_ingredient);
         RecipeIngredients recipeIngredient = recipeIngredientList.get(position);
         remoteView.setTextViewText(R.id.recipe_ingredient_textview, recipeIngredient.getRecipeIngredientName() + ": " + recipeIngredient.getRecipeIngredientQuantity() + " " + recipeIngredient.getRecipeIngredientMeasureUnit());
-
-
-        Bundle extras = new Bundle();
-        extras.putInt(RecipeWidgetProvider.EXTRA_ITEM, position);
-        Intent fillInIntent = new Intent();
-        fillInIntent.putExtras(extras);
-        remoteView.setOnClickFillInIntent(R.id.widget_recipe_ingridients_listview, fillInIntent);
-        // You can do heaving lifting in here, synchronously. For example, if you need to
-        // process an image, fetch something from the network, etc., it is ok to do it here,
-        // synchronously. A loading view will show up in lieu of the actual contents in the
-        // interim.
-        try {
-            System.out.println("Loading view " + position);
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         return remoteView;
     }
 

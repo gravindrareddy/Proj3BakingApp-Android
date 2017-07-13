@@ -18,11 +18,22 @@ package redgun.bakingapp.data;
 import android.annotation.TargetApi;
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
+import redgun.bakingapp.R;
+import redgun.bakingapp.models.Recipes;
 
 public class RecipesProvider extends ContentProvider {
 
@@ -196,4 +207,24 @@ public class RecipesProvider extends ContentProvider {
         super.shutdown();
     }
 
+
+    public static ArrayList<Recipes> fetchRecipes(Context context) {
+        ArrayList<Recipes> recipesList = new ArrayList<>();
+        Uri.Builder builder = new Uri.Builder();
+        Uri _uri = builder.scheme("content")
+                .authority(context.getResources().getString(R.string.contentprovider_authority))
+                .appendPath(context.getResources().getString(R.string.contentprovider_recipe_entry)).build();
+
+        Cursor _cursor = context.getContentResolver().query(_uri, null, null, null, null);
+        if (_cursor != null && _cursor.getCount() > 0) {
+            _cursor.moveToFirst();
+            String recipesListStr = _cursor.getString(_cursor.getColumnIndex(RecipesContract.RecipeEntry.COLUMN_RECIPES_JSON));
+            Gson gson = new GsonBuilder().create();
+            Type collectionType = new TypeToken<ArrayList<Recipes>>() {
+            }.getType();
+            recipesList = gson.fromJson(recipesListStr, collectionType);
+
+        }
+        return recipesList;
+    }
 }

@@ -11,6 +11,9 @@
     <string name="key_recipe_step_long_description">key_recipe_step_long_description</string>
     <string name="key_recipes_list_parcel">key_recipes_list_parcel</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="pref_main">PREF_MAIN</string>
+    <string name="prefered_recipe_index">prefered_recipe_index</string>
+
     <string name="pref_category_recipe_key"><xliff:g id="preference_key">pref_category_recipe_key</xliff:g></string>
     <string name="pref_recipes_list_key"><xliff:g id="preference_key">pref_recipes_list_key</xliff:g></string>
     <string name="menu_settings">settings</string>

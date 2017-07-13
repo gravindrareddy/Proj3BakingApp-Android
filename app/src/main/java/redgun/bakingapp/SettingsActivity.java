@@ -15,13 +15,17 @@ import android.preference.PreferenceActivity;
 import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MenuItem;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import redgun.bakingapp.data.RecipesProvider;
 import redgun.bakingapp.models.Recipes;
+
+import static redgun.bakingapp.RecipesActivity.recipesList;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -40,6 +44,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * to reflect its new value.
      */
 
+    static Context context;
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
 
 
@@ -59,6 +64,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                                 ? listPreference.getEntries()[index]
                                 : null);
 
+                // Set index of selected view on Shared preferences to auto update the Widget content
+                SharedPreferences sharedpreferences = context.getSharedPreferences(context.getResources().getString(R.string.pref_main), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putInt(context.getResources().getString(R.string.prefered_recipe_index), index);
+                editor.commit();
+
+                // this service will further trigger required steps to auto update the Widget content
+                Intent intent = new Intent(context, WidgetIntentService.class);
+                context.startService(intent);
             }
             return true;
         }
@@ -97,8 +111,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ArrayList<Recipes> recipesArrayList = getIntent().getParcelableArrayListExtra(getString(R.string.key_recipes_list_parcel));
-        // ToDo pass the above list to Fragment
+        context = this;
         setupActionBar();
     }
 
@@ -152,23 +165,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_general);
 
             ListPreference recipeListPreference = (ListPreference) findPreference(getString(R.string.pref_recipes_list_key));
-            ArrayList<String> recipeNames = new ArrayList<>();
-
-            // ToDo fetch Recipes ArrayList from Settings Activity
-
-//            for (int i = 0; i < recipesArrayList.size(); i++) {
-//                recipeNames.add(recipesArrayList.get(i).getRecipeName());
-//            }
-//
-//            recipeListPreference.setEntries((String[]) recipeNames.toArray());
-//            recipeListPreference.setEntryValues((String[]) recipeNames.toArray());
+            String[] recipeNames = new String[recipesList.size()];
+            ArrayList<Recipes> recipesList = RecipesProvider.fetchRecipes(getActivity());
+            for (int i = 0; i < recipesList.size(); i++) {
+                recipeNames[i] = recipesList.get(i).getRecipeName();
+            }
+            recipeListPreference.setEntries(recipeNames);
+            recipeListPreference.setEntryValues(recipeNames);
             setHasOptionsMenu(true);
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            // bindPreferenceSummaryToValue(findPreference(getResources().getString(R.string.pref_recipes_list_key)));
+            bindPreferenceSummaryToValue(findPreference(getResources().getString(R.string.pref_recipes_list_key)));
         }
 
 
@@ -188,7 +193,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             SharedPreferences.OnSharedPreferenceChangeListener listener =
                     new SharedPreferences.OnSharedPreferenceChangeListener() {
                         public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-                            // listener implementation
+
                         }
                     };
             getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(listener);
@@ -197,27 +202,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public void onPause() {
             super.onPause();
-            SharedPreferences.OnSharedPreferenceChangeListener listener =
-                    new SharedPreferences.OnSharedPreferenceChangeListener() {
-                        public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-                            // listener implementation
-                        }
-                    };
-            getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(listener);
         }
 
     }
-
-
-    //ToDo - On Preference Change, Load Widget with the ingredients relevant to the new selected Recipe
-
-//    @Override
-//    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-//                                          String key) {
-//        if (key.equals(getString(R.string.pref_recipes_list_key))) {
-//            Preference connectionPref = findPreference(key);
-//            // Set summary to be the user-description for the selected value
-//            connectionPref.setSummary(sharedPreferences.getString(key, ""));
-//        }
-//        }
 }
