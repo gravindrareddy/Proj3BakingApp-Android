@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/recipe_steps_fragment"
-        android:name="redgun.bakingapp.RecipeStepsFragment"
+        android:name="redgun.bakingapp.features.recipesteps.ui.RecipeStepsFragment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"></fragment>
 

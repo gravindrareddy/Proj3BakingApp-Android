@@ -1,4 +1,4 @@
-package redgun.bakingapp;
+package redgun.bakingapp.widget;
 
 import android.app.IntentService;
 import android.app.Notification;

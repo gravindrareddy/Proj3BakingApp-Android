@@ -1,4 +1,4 @@
-package redgun.bakingapp;
+package redgun.bakingapp.features.recipesteps.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,14 +6,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import redgun.bakingapp.R;
 import redgun.bakingapp.models.Recipes;
 
 
-import static redgun.bakingapp.RecipesActivity.mContext;
+import static redgun.bakingapp.features.recipes.ui.RecipesActivity.mContext;
 
 /**
  * Created by Ravindra on 29-05-2017.
  */
+
+
+//todo: work on data flow due to flow change of recipe ingridients
 
 public class RecipeStepsActivity extends AppCompatActivity implements RecipeStepsFragment.OnRecipeStepClickListener {
     Recipes intentReceivedRecipe;

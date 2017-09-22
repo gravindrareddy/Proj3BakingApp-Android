@@ -1,4 +1,4 @@
-package redgun.bakingapp;
+package redgun.bakingapp.features.recipesteps.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import redgun.bakingapp.R;
+import redgun.bakingapp.features.recipesteps.ui.RecipeStepsFragment;
 import redgun.bakingapp.models.RecipeSteps;
 
 /**

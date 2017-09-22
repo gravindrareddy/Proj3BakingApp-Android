@@ -1,4 +1,4 @@
-package redgun.bakingapp;
+package redgun.bakingapp.utilities;
 
 /**
  * Created by Ravindra on 04-06-2017.

@@ -1,4 +1,4 @@
-package redgun.bakingapp;
+package redgun.bakingapp.widget;
 
 /**
  * Created by gravi on 22-06-2017.
@@ -14,6 +14,7 @@ import android.widget.RemoteViewsService;
 
 import java.util.ArrayList;
 
+import redgun.bakingapp.R;
 import redgun.bakingapp.data.RecipesProvider;
 import redgun.bakingapp.models.RecipeIngredients;
 import redgun.bakingapp.models.Recipes;
@@ -46,7 +47,6 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
         if (selectedRecipeIndex >= 0) {
             this.recipeIngredientList = recipesList.get(selectedRecipeIndex).getRecipeIngredients();
         }
-
     }
 
     @Override

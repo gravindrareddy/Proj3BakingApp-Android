@@ -1,12 +1,13 @@
-package redgun.bakingapp;
+package redgun.bakingapp.features.recipesteps.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
-import static redgun.bakingapp.RecipesActivity.mContext;
+import redgun.bakingapp.R;
+
+import static redgun.bakingapp.features.recipes.ui.RecipesActivity.mContext;
 
 /**
  * Created by Ravindra on 29-05-2017.
@@ -27,12 +28,12 @@ public class RecipeStepDetailsActivity extends AppCompatActivity {
         Intent i = getIntent();
         intentReceivedRecipeStepDetails = i.getExtras().getBundle(getResources().getString(R.string.key_recipe_step_details_bundle));
 
-        if (savedInstanceState == null) {
+        if (mSavedInstanceState == null) {
             RecipeStepDetailsFragment newRecipeStepDetailsFragment = new RecipeStepDetailsFragment();
             newRecipeStepDetailsFragment.setArguments(intentReceivedRecipeStepDetails);
             getSupportFragmentManager().beginTransaction().add(R.id.recipe_step_details_fragment, newRecipeStepDetailsFragment).commit();
         } else {
-            //ToDo
+            //ToDo - get from savedInstanceState
         }
     }
 }

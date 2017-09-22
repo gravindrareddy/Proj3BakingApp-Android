@@ -1,4 +1,4 @@
-package redgun.bakingapp;
+package redgun.bakingapp.features.recipesteps.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,8 +13,12 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import redgun.bakingapp.utilities.OnRecyclerViewItemClickListener;
+import redgun.bakingapp.R;
+import redgun.bakingapp.features.recipeingredients.adapter.RecipeIngredientListAdapter;
 import redgun.bakingapp.models.RecipeIngredients;
 import redgun.bakingapp.models.Recipes;
+import redgun.bakingapp.features.recipesteps.adapter.RecipeStepsListAdapter;
 
 /**
  * Created by Ravindra on 29-05-2017.

@@ -99,7 +99,7 @@ public class Recipes implements Parcelable {
 
 
     // "De-parcel object
-    public Recipes(Parcel in) {
+    public  Recipes(Parcel in) {
         recipeId = in.readInt();
         recipeName = in.readString();
         recipeIngredients = in.readArrayList(RecipeIngredients.class.getClassLoader());

@@ -12,17 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RecipesActivity">
+        <activity android:name=".features.recipes.ui.RecipesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RecipeStepsActivity" />
-        <activity android:name=".RecipeStepDetailsActivity" />
+        <activity android:name=".features.recipesteps.ui.RecipeStepsActivity" />
+        <activity android:name=".features.recipesteps.ui.RecipeStepDetailsActivity" />
 
-        <receiver android:name=".RecipeWidgetProvider">
+        <receiver android:name=".widget.RecipeWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -32,17 +32,17 @@
         </receiver>
 
         <service
-            android:name=".WidgetService"
+            android:name=".widget.WidgetService"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
-        <service android:name="redgun.bakingapp.WidgetIntentService"></service>
+        <service android:name="redgun.bakingapp.widget.WidgetIntentService"></service>
 
         <activity
-            android:name=".SettingsActivity"
+            android:name=".features.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".RecipesActivity">
+            android:parentActivityName=".features.recipes.ui.RecipesActivity">
             <meta-data
                 android:name="PARENT_ACTIVITY"
                 android:value=".RecipesActivity" />

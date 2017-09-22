@@ -1,4 +1,4 @@
-package redgun.bakingapp;
+package redgun.bakingapp.features.recipes.ui;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -17,32 +17,27 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
-import java.lang.reflect.Type;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
+import redgun.bakingapp.R;
+import redgun.bakingapp.features.recipesteps.ui.RecipeStepsActivity;
+import redgun.bakingapp.features.recipes.adapter.RecipesAdapter;
+import redgun.bakingapp.features.settings.SettingsActivity;
 import redgun.bakingapp.data.RecipesContract;
-import redgun.bakingapp.models.RecipeIngredients;
+import redgun.bakingapp.data.RecipesProvider;
 import redgun.bakingapp.models.Recipes;
 import redgun.bakingapp.utilities.NetworkUtils;
 import redgun.bakingapp.utilities.RecyclerTouchListener;
+
+import static redgun.bakingapp.data.RecipesProvider.getRecipesFromURL;
 
 /**
  * Created by Ravindra on 29-05-2017.
@@ -51,41 +46,18 @@ import redgun.bakingapp.utilities.RecyclerTouchListener;
 public class RecipesActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Recipes>> {
     private static final int RECIPE_LOADER = 1;
     public static Context mContext;
-    static ArrayList<Recipes> recipesList = new ArrayList<Recipes>();
+    public static ArrayList<Recipes> recipesList = new ArrayList<Recipes>();
     RecyclerView recipes_recyclerview;
     private RecipesAdapter mRecipeAdapter;
+    static String mTAG;
 
-    /**
-     * This method returns the entire result from the HTTP response.
-     *
-     * @param url The URL to fetch the HTTP response from.
-     * @return The contents of the HTTP response.
-     * @throws IOException Related to network and stream reading
-     */
-    public static ArrayList<Recipes> getRecipesFromURL(URL url) throws IOException {
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        urlConnection.setRequestMethod("GET");
-        InputStream inputStream;
-        ArrayList<Recipes> recipesList = new ArrayList<Recipes>();
-        try {
-            inputStream = urlConnection.getInputStream();
-            Gson gson = new GsonBuilder().create();
-            Type collectionType = new TypeToken<ArrayList<Recipes>>() {
-            }.getType();
-            recipesList = gson.fromJson(new BufferedReader(new InputStreamReader(inputStream)), collectionType);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            urlConnection.disconnect();
-        }
-        return recipesList;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipes);
         mContext = this;
+        mTAG = this.getPackageName() + getLocalClassName();
         recipes_recyclerview = (RecyclerView) findViewById(R.id.recipes_recyclerview);
         if (NetworkUtils.isOnline(mContext)) {
             getSupportLoaderManager().initLoader(RECIPE_LOADER, null, this).forceLoad();
@@ -110,29 +82,26 @@ public class RecipesActivity extends AppCompatActivity implements LoaderManager.
     public Loader<ArrayList<Recipes>> onCreateLoader(int id, Bundle args) {
         switch (id) {
             case RECIPE_LOADER:
-                return new FetchRecipes(this);
+                return new RecipesProvider.FetchRecipes(this);
         }
-        return new FetchRecipes(this);
+        return new RecipesProvider.FetchRecipes(this);
     }
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Recipes>> loader, ArrayList<Recipes> data) {
         recipesList = data;
         mRecipeAdapter = new RecipesAdapter(recipesList);
-        //todo - make it dynamic for mobile & tablet
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+        //this will define the dynamic column count for phone and tablet
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.recipes_recycler_count));
         recipes_recyclerview.setLayoutManager(mLayoutManager);
         recipes_recyclerview.setItemAnimator(new DefaultItemAnimator());
         recipes_recyclerview.setAdapter(mRecipeAdapter);
-
-
         JSONObject json = new JSONObject();
         try {
             json.put("uniqueArrays", recipesList);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
 
         String arrayList = json.toString();
@@ -188,45 +157,5 @@ public class RecipesActivity extends AppCompatActivity implements LoaderManager.
         }
     }
 
-    private static class FetchRecipes extends AsyncTaskLoader<ArrayList<Recipes>> {
-        public FetchRecipes(Context context) {
-            super(context);
-        }
 
-        @Override
-        public ArrayList<Recipes> loadInBackground() {
-            HttpURLConnection urlConnection = null;
-            BufferedReader reader = null;
-            ArrayList<Recipes> recipesArrayList = new ArrayList<Recipes>();
-            try {
-                URL url = NetworkUtils.buildRecipeUrl(mContext);
-                recipesArrayList = getRecipesFromURL(url);
-
-            } catch (IOException e) {
-                Log.e("PlaceholderFragment", "Error ", e);
-                e.printStackTrace();
-                return null;
-            } finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (final IOException e) {
-                        Log.e("PlaceholderFragment12", "Error closing stream", e.fillInStackTrace());
-                        e.printStackTrace();
-                    }
-                }
-            }
-            return recipesArrayList;
-
-        }
-
-
-        @Override
-        public void deliverResult(ArrayList<Recipes> data) {
-            super.deliverResult(data);
-        }
-    }
 }

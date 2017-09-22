@@ -1,4 +1,4 @@
-package redgun.bakingapp;
+package redgun.bakingapp.features.settings;
 
 
 import android.annotation.TargetApi;
@@ -13,19 +13,18 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.support.v7.app.ActionBar;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.MenuItem;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import redgun.bakingapp.R;
 import redgun.bakingapp.data.RecipesProvider;
 import redgun.bakingapp.models.Recipes;
+import redgun.bakingapp.widget.WidgetIntentService;
 
-import static redgun.bakingapp.RecipesActivity.recipesList;
+import static redgun.bakingapp.features.recipes.ui.RecipesActivity.recipesList;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -44,7 +43,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * to reflect its new value.
      */
 
-    static Context context;
+    public static Context context;
+
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
 
 

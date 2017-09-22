@@ -1,4 +1,4 @@
-package redgun.bakingapp;
+package redgun.bakingapp.features.recipes.adapter;
 
 /**
  * Created by Ravindra on 01-06-2017.
@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import redgun.bakingapp.R;
 import redgun.bakingapp.models.Recipes;
 
 public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.MyViewHolder> {

@@ -1,4 +1,4 @@
-package redgun.bakingapp;
+package redgun.bakingapp.features.settings;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

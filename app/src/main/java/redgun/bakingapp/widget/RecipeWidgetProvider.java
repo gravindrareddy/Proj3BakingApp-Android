@@ -1,20 +1,13 @@
-package redgun.bakingapp;
+package redgun.bakingapp.widget;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-import redgun.bakingapp.models.RecipeIngredients;
-
-import static redgun.bakingapp.R.id.widget_recipe_ingridients_listview;
+import redgun.bakingapp.R;
 
 /**
  * Created by Ravindra on 11-06-2017.
@@ -62,11 +55,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
             svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)));
             remoteViews.setRemoteAdapter(R.id.widget_recipe_ingridients_listview, svcIntent);
             remoteViews.setEmptyView(R.id.widget_recipe_ingridients_listview, R.id.widget_recipe_ingridients_empty_view);
-//            PendingIntent toastPendingIntent = PendingIntent.getBroadcast(context, 0, svcIntent,
-//                    PendingIntent.FLAG_UPDATE_CURRENT);
-//            remoteViews.setPendingIntentTemplate(R.id.widget_recipe_ingridients_listview, toastPendingIntent);
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
-//            context.startService(svcIntent);
         }
     }
 }

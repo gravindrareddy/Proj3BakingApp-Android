@@ -24,16 +24,25 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.support.v4.content.AsyncTaskLoader;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import redgun.bakingapp.R;
 import redgun.bakingapp.models.Recipes;
+import redgun.bakingapp.utilities.NetworkUtils;
 
 public class RecipesProvider extends ContentProvider {
 
@@ -226,5 +235,77 @@ public class RecipesProvider extends ContentProvider {
 
         }
         return recipesList;
+    }
+
+
+    /**
+     * This method returns the entire result from the HTTP response.
+     *
+     * @param url The URL to fetch the HTTP response from.
+     * @return The contents of the HTTP response.
+     * @throws IOException Related to network and stream reading
+     */
+    public static ArrayList<Recipes> getRecipesFromURL(URL url) throws IOException {
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        urlConnection.setRequestMethod("GET");
+        InputStream inputStream;
+        ArrayList<Recipes> recipesList = new ArrayList<Recipes>();
+        try {
+            inputStream = urlConnection.getInputStream();
+            Gson gson = new GsonBuilder().create();
+            Type collectionType = new TypeToken<ArrayList<Recipes>>() {
+            }.getType();
+            recipesList = gson.fromJson(new BufferedReader(new InputStreamReader(inputStream)), collectionType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            urlConnection.disconnect();
+        }
+        return recipesList;
+    }
+
+    public static class FetchRecipes extends AsyncTaskLoader<ArrayList<Recipes>> {
+        Context mContext;
+
+        public FetchRecipes(Context context) {
+            super(context);
+            mContext = context;
+        }
+
+        @Override
+        public ArrayList<Recipes> loadInBackground() {
+            HttpURLConnection urlConnection = null;
+            BufferedReader reader = null;
+            ArrayList<Recipes> recipesArrayList = new ArrayList<Recipes>();
+            try {
+                URL url = NetworkUtils.buildRecipeUrl(mContext);
+                recipesArrayList = getRecipesFromURL(url);
+
+            } catch (IOException e) {
+                Log.e("PlaceholderFragment", "Error ", e);
+                e.printStackTrace();
+                return null;
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e(mContext.getPackageName(), "Error closing stream", e.fillInStackTrace());
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return recipesArrayList;
+
+        }
+
+
+        @Override
+        public void deliverResult(ArrayList<Recipes> data) {
+            super.deliverResult(data);
+        }
     }
 }

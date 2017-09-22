@@ -1,12 +1,13 @@
-package redgun.bakingapp;
+package redgun.bakingapp.widget;
 
 import android.app.IntentService;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.widget.RemoteViews;
 
-import static redgun.bakingapp.SettingsActivity.context;
+import redgun.bakingapp.R;
+
+import static redgun.bakingapp.features.settings.SettingsActivity.context;
 
 /**
  * Created by gravi on 13-07-2017.
