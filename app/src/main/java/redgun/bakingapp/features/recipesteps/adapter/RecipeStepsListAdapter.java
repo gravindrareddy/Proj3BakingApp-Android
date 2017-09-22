@@ -12,6 +12,7 @@ import java.util.List;
 import redgun.bakingapp.R;
 import redgun.bakingapp.features.recipesteps.ui.RecipeStepsFragment;
 import redgun.bakingapp.models.RecipeSteps;
+import redgun.bakingapp.utilities.OnRecipeStepClickListener;
 
 /**
  * Created by Ravindra on 29-05-2017.
@@ -20,7 +21,7 @@ import redgun.bakingapp.models.RecipeSteps;
 
 public class RecipeStepsListAdapter extends RecyclerView.Adapter<RecipeStepsListAdapter.MyViewHolder> {
 
-    RecipeStepsFragment.OnRecipeStepClickListener listener;
+    OnRecipeStepClickListener listener;
     private List<RecipeSteps> recipesList;
 
     public RecipeStepsListAdapter(List<RecipeSteps> recipesList) {
@@ -36,7 +37,7 @@ public class RecipeStepsListAdapter extends RecyclerView.Adapter<RecipeStepsList
     }
 
 
-    public void setOnItemClickListener(RecipeStepsFragment.OnRecipeStepClickListener listener) {
+    public void setOnItemClickListener(OnRecipeStepClickListener listener) {
         this.listener = listener;
     }
 

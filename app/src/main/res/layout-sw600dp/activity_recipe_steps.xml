@@ -4,11 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <fragment
+    <FrameLayout
         android:id="@+id/recipe_steps_fragment"
         android:name="redgun.bakingapp.features.recipesteps.ui.RecipeStepsFragment"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"></fragment>
+        android:layout_height="match_parent"></FrameLayout>
 
     <View
         android:layout_width="2dp"
@@ -20,9 +20,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
-        <fragment
-            android:id="@+id/recipe_step_details_fragment"
+        <FrameLayout
+            android:id="@+id/recipe_step_ingredients_or_details_fragment"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"></fragment>
+            android:layout_height="match_parent"></FrameLayout>
     </RelativeLayout>
 </RelativeLayout>

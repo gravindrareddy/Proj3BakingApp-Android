@@ -84,7 +84,7 @@ public class RecipeStepDetailsFragment extends Fragment implements ExoPlayer.Eve
             recipe_step_videoview.setVisibility(View.GONE);
         }
 
-        // ToDO - Play Video & landscape mode on mobile in landscape
+        // ToDO - Play Video without RESUME on change in orientation
 
 
         return rootView;
@@ -192,5 +192,12 @@ public class RecipeStepDetailsFragment extends Fragment implements ExoPlayer.Eve
     @Override
     public void onVisibilityChange(int visibility) {
 
+    }
+
+    /*
+    RiskStepActivity call this method to populate data on Right Fragment for Tablet
+     */
+    public void displayStepDetails(RecipeSteps mRecipeSteps) {
+        //todo: populate data on the view
     }
 }

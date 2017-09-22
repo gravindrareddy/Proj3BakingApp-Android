@@ -4,11 +4,8 @@ package redgun.bakingapp.widget;
  * Created by gravi on 22-06-2017.
  */
 
-import android.appwidget.AppWidgetManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -78,7 +75,7 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
         final RemoteViews remoteView = new RemoteViews(
                 mContext.getPackageName(), R.layout.view_listitem_recipe_ingredient);
         RecipeIngredients recipeIngredient = recipeIngredientList.get(position);
-        remoteView.setTextViewText(R.id.recipe_ingredient_textview, recipeIngredient.getRecipeIngredientName() + ": " + recipeIngredient.getRecipeIngredientQuantity() + " " + recipeIngredient.getRecipeIngredientMeasureUnit());
+        remoteView.setTextViewText(R.id.recipe_ingredient_item_textview, recipeIngredient.getRecipeIngredientName() + ": " + recipeIngredient.getRecipeIngredientQuantity() + " " + recipeIngredient.getRecipeIngredientMeasureUnit());
         return remoteView;
     }
 

@@ -6,10 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import redgun.bakingapp.R;
 import redgun.bakingapp.models.RecipeIngredients;
+
+import static redgun.bakingapp.features.recipes.ui.RecipesActivity.recipesList;
 
 /**
  * Created by Ravindra on 29-05-2017.
@@ -18,10 +21,10 @@ import redgun.bakingapp.models.RecipeIngredients;
 public class RecipeIngredientListAdapter extends RecyclerView.Adapter<RecipeIngredientListAdapter.MyViewHolder> {
 
 
-    private List<RecipeIngredients> recipesList;
+    private ArrayList<RecipeIngredients> recipesIngredientsList;
 
-    public RecipeIngredientListAdapter(List<RecipeIngredients> recipesList) {
-        this.recipesList = recipesList;
+    public RecipeIngredientListAdapter(ArrayList<RecipeIngredients> recipesIngredientsList) {
+        this.recipesIngredientsList = recipesIngredientsList;
     }
 
 
@@ -34,13 +37,13 @@ public class RecipeIngredientListAdapter extends RecyclerView.Adapter<RecipeIngr
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        RecipeIngredients recipeIngredient = recipesList.get(position);
+        RecipeIngredients recipeIngredient = recipesIngredientsList.get(position);
         holder.recipe_ingredient_textview.setText(recipeIngredient.getRecipeIngredientName() + ": " + recipeIngredient.getRecipeIngredientQuantity() + " " + recipeIngredient.getRecipeIngredientMeasureUnit());
     }
 
     @Override
     public int getItemCount() {
-        return recipesList.size();
+        return recipesIngredientsList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -49,7 +52,7 @@ public class RecipeIngredientListAdapter extends RecyclerView.Adapter<RecipeIngr
 
         public MyViewHolder(View view) {
             super(view);
-            recipe_ingredient_textview = (TextView) view.findViewById(R.id.recipe_ingredient_textview);
+            recipe_ingredient_textview = (TextView) view.findViewById(R.id.recipe_ingredient_item_textview);
         }
     }
 
