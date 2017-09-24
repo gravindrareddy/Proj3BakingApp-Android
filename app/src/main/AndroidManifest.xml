@@ -12,16 +12,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".features.recipes.ui.RecipesActivity">
+        <activity android:name=".features.recipes.ui.RecipesActivity"
+            android:label="@string/activity_recipes_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            android:label="@string/activity_recipe_steps_name"
         </activity>
-        <activity android:name=".features.recipesteps.ui.RecipeStepsActivity" />
-        <activity android:name=".features.recipesteps.ui.RecipeStepDetailsActivity" />
-        <activity android:name=".features.recipeingredients.ui.RecipeIngredientsActivity" />
+        <activity
+            android:name=".features.recipesteps.ui.RecipeStepsActivity"
+            android:label="@string/activity_recipe_steps_name" />
+        <activity
+            android:name=".features.recipesteps.ui.RecipeStepDetailsActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/activity_recipe_step_details_name" />
+        <activity
+            android:name=".features.recipeingredients.ui.RecipeIngredientsActivity"
+            android:label="@string/activity_recipe_ingredients_name" />
 
         <receiver android:name=".widget.RecipeWidgetProvider">
             <intent-filter>

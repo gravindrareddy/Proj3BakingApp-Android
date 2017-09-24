@@ -3,12 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/card_white"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/recipe_step_imageview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="247dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/placeholder_video" />
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
@@ -20,26 +22,30 @@
     <TextView
         android:id="@+id/recipe_step_long_description_textview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="@dimen/app_padding_default"
+        android:textSize="@dimen/content_text_size" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal|bottom"
+        android:padding="@dimen/app_padding_default"
+        android:orientation="horizontal">
 
 
         <Button
             android:id="@+id/recipe_step_button_left_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Earlier Step"/>
+            android:text="Earlier Step" />
 
         <Button
             android:id="@+id/recipe_step_button_right_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Next Step"/>
+            android:text="Next Step" />
     </LinearLayout>
 
 </LinearLayout>

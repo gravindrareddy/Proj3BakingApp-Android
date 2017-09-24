@@ -5,9 +5,13 @@
     <dimen name="grid_item_recipe_width">30dp</dimen>
     <dimen name="widget_margin">8dp</dimen>
     <dimen name="app_padding_default">8dp</dimen>
+    <dimen name="app_padding_max_default">16dp</dimen>
+    <dimen name="app_padding_mini_default">4dp</dimen>
     <dimen name="recipe_recycler_item_image_padding">8dp</dimen>
     <dimen name="recipe_recycler_item_image_width">220dp</dimen>
     <dimen name="recipe_recycler_item_image_height">160dp</dimen>
-    <dimen name="default_text_size">22sp</dimen>
+    <dimen name="heading_text_size">22sp</dimen>
+    <dimen name="content_text_size">16sp</dimen>
     <dimen name="recipe_recycler_width">@dimen/wrap_content</dimen>
+    <dimen name="icon_size">16dp</dimen>
 </resources>

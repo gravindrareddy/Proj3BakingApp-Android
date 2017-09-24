@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/listitem_recipe_ingredient_linearlayout"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:background="@color/background_grey"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/app_padding_mini_default">
 
     <TextView
         android:id="@+id/recipe_ingredient_item_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/card_white"
+        android:gravity="left"
+        android:padding="@dimen/app_padding_default"
+        android:textSize="@dimen/heading_text_size" />
 </LinearLayout>

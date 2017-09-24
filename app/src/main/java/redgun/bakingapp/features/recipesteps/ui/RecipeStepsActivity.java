@@ -121,7 +121,8 @@ public class RecipeStepsActivity extends AppCompatActivity implements OnRecipeSt
         } else {
             // This will open the new view and populate relevant Activity with content
             Bundle bundle = new Bundle();
-            bundle.putParcelable(getResources().getString(R.string.key_recipe_step_details_parcel), intentReceivedRecipe.getRecipeSteps().get(position));
+            bundle.putParcelableArrayList(getResources().getString(R.string.key_recipe_step_details_parcel), intentReceivedRecipe.getRecipeSteps());
+            bundle.putInt(getResources().getString(R.string.key_recipe_step_details_selected_position), position);
             Intent intent = new Intent(getApplicationContext(), RecipeStepDetailsActivity.class);
             intent.putExtra(getResources().getString(R.string.key_recipe_step_details_bundle), bundle);
             startActivity(intent);

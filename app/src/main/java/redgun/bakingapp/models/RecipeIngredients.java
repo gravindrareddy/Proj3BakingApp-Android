@@ -23,13 +23,13 @@ public class RecipeIngredients implements Parcelable {
     };
 
     @SerializedName("quantity")
-    float recipeIngredientQuantity;
+    String recipeIngredientQuantity;
     @SerializedName("measure")
     String recipeIngredientMeasureUnit;
     @SerializedName("ingredient")
     String recipeIngredientName;
 
-    public RecipeIngredients(float recipeIngredientQuantity, String recipeIngredientMeasureUnit, String recipeIngredientName) {
+    public RecipeIngredients(String recipeIngredientQuantity, String recipeIngredientMeasureUnit, String recipeIngredientName) {
         this.recipeIngredientQuantity = recipeIngredientQuantity;
         this.recipeIngredientMeasureUnit = recipeIngredientMeasureUnit;
         this.recipeIngredientName = recipeIngredientName;
@@ -37,16 +37,16 @@ public class RecipeIngredients implements Parcelable {
 
     // "De-parcel object
     public RecipeIngredients(Parcel in) {
-        recipeIngredientQuantity = in.readInt();
+        recipeIngredientQuantity = in.readString();
         recipeIngredientMeasureUnit = in.readString();
         recipeIngredientName = in.readString();
     }
 
-    public float getRecipeIngredientQuantity() {
+    public String getRecipeIngredientQuantity() {
         return recipeIngredientQuantity;
     }
 
-    public void setRecipeIngredientQuantity(int recipeIngredientQuantity) {
+    public void setRecipeIngredientQuantity(String recipeIngredientQuantity) {
         this.recipeIngredientQuantity = recipeIngredientQuantity;
     }
 
@@ -73,7 +73,7 @@ public class RecipeIngredients implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeFloat(recipeIngredientQuantity);
+        dest.writeString(recipeIngredientQuantity);
         dest.writeString(recipeIngredientMeasureUnit);
         dest.writeString(recipeIngredientName);
     }

@@ -1,6 +1,7 @@
 package redgun.bakingapp.features.recipesteps.ui;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -116,6 +117,11 @@ public class RecipeStepDetailsFragment extends Fragment implements ExoPlayer.Eve
 
 
         return rootView;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
     @Override

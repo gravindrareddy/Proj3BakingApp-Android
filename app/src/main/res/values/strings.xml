@@ -1,5 +1,9 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Proj3-BakingApp-Android</string>
+    <string name="activity_recipe_ingredients_name">Recipe Ingredients</string>
+    <string name="activity_recipe_steps_name">Recipe Steps</string>
+    <string name="activity_recipes_name">Recipes</string>
+    <string name="activity_recipe_step_details_name">Recipe Step Details</string>
     <string name="base_url">https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json</string>
     <string name="internet_error">Not connected to Internet</string>
     <string name="key_recipe_parcel">key_recipe_parcel</string>
