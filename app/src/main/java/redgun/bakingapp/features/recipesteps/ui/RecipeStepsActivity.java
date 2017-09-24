@@ -59,10 +59,9 @@ public class RecipeStepsActivity extends AppCompatActivity implements OnRecipeSt
             if (savedInstanceState == null) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(getResources().getString(R.string.key_recipe_parcel), intentReceivedRecipe);
+                bundle.putParcelableArrayList(getResources().getString(R.string.key_recipe_ingredients_parcel), intentReceivedRecipe.getRecipeIngredients());
                 RecipeIngredientsFragment recipeIngredientsFragment = new RecipeIngredientsFragment();
-                RecipeStepsFragment recipeStepsFragment = new RecipeStepsFragment();
-                recipeStepsFragment.setArguments(bundle);
+                recipeIngredientsFragment.setArguments(bundle);
                 fragmentManager.beginTransaction().add(R.id.recipe_step_ingredients_or_details_fragment, recipeIngredientsFragment).commit();
             }
         } else {
@@ -81,7 +80,6 @@ public class RecipeStepsActivity extends AppCompatActivity implements OnRecipeSt
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
 
 //    @Override
@@ -111,9 +109,15 @@ public class RecipeStepsActivity extends AppCompatActivity implements OnRecipeSt
     @Override
     public void onRecipeStepClicked(int position) {
         if (mTwoPane) {
-            RecipeStepDetailsFragment recipeStepDetailsFragment = (RecipeStepDetailsFragment) getSupportFragmentManager().findFragmentByTag("tag1");
+            RecipeStepDetailsFragment recipeStepDetailsFragment = new RecipeStepDetailsFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList(getResources().getString(R.string.key_recipe_step_details_parcel), intentReceivedRecipe.getRecipeSteps());
+            bundle.putInt(getResources().getString(R.string.key_recipe_step_details_selected_position), position);
+            recipeStepDetailsFragment.setArguments(bundle);
+            fragmentManager.beginTransaction().replace(R.id.recipe_step_ingredients_or_details_fragment, recipeStepDetailsFragment).commit();
             // This will populate the relevant content on right side fragment
-            recipeStepDetailsFragment.displayStepDetails(intentReceivedRecipe.getRecipeSteps().get(position));
+            //recipeStepDetailsFragment.displayStepDetails(intentReceivedRecipe.getRecipeSteps().get(position));
         } else {
             // This will open the new view and populate relevant Activity with content
             Bundle bundle = new Bundle();
@@ -127,9 +131,14 @@ public class RecipeStepsActivity extends AppCompatActivity implements OnRecipeSt
     @Override
     public void onRecipeIngredientClicked() {
         if (mTwoPane) {
-            RecipeIngredientsFragment recipeIngredientFragment = (RecipeIngredientsFragment) getSupportFragmentManager().findFragmentByTag("tag1");
+            RecipeIngredientsFragment recipeIngredientFragment = new RecipeIngredientsFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList(getResources().getString(R.string.key_recipe_ingredients_parcel), intentReceivedRecipe.getRecipeIngredients());
+            recipeIngredientFragment.setArguments(bundle);
+            fragmentManager.beginTransaction().replace(R.id.recipe_step_ingredients_or_details_fragment, recipeIngredientFragment).commit();
             // This will populate the relevant content on right side fragment
-            recipeIngredientFragment.displayIngredients(intentReceivedRecipe.getRecipeIngredients());
+            //recipeIngredientFragment.displayIngredients(intentReceivedRecipe.getRecipeIngredients());
         } else {
             // This will open the new view and populate relevant Activity with content
             Intent intent = new Intent(getApplicationContext(), RecipeIngredientsActivity.class);

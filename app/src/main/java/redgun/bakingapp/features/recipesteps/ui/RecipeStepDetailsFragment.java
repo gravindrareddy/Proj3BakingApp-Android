@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,8 +40,11 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
+import java.util.ArrayList;
+
 import redgun.bakingapp.R;
 import redgun.bakingapp.models.RecipeSteps;
+import redgun.bakingapp.utilities.Utils;
 
 import static com.google.android.exoplayer2.mediacodec.MediaCodecInfo.TAG;
 
@@ -54,8 +58,11 @@ public class RecipeStepDetailsFragment extends Fragment implements ExoPlayer.Eve
     ImageView recipe_step_imageview;
     SimpleExoPlayerView recipe_step_videoview;
     TextView recipe_step_long_description_textview;
-    RecipeSteps recipeSteps;
+    ArrayList<RecipeSteps> recipeStepsArrayList;
+    RecipeSteps recipeStepDetails;
+    int currentPosition;
     Context mContext;
+    Button recipe_step_button_left_button, recipe_step_button_right_button;
 
     private SimpleExoPlayer player;
     private ExoPlayer.EventListener exoPlayerEventListener;
@@ -67,24 +74,45 @@ public class RecipeStepDetailsFragment extends Fragment implements ExoPlayer.Eve
         recipe_step_imageview = (ImageView) rootView.findViewById(R.id.recipe_step_imageview);
         recipe_step_videoview = (SimpleExoPlayerView) rootView.findViewById(R.id.recipe_step_videoview);
         recipe_step_long_description_textview = (TextView) rootView.findViewById(R.id.recipe_step_long_description_textview);
+        recipe_step_button_right_button = (Button) rootView.findViewById(R.id.recipe_step_button_right_button);
+        recipe_step_button_left_button = (Button) rootView.findViewById(R.id.recipe_step_button_left_button);
+
         mContext = getActivity();
-
-        recipeSteps = getArguments().getParcelable(getResources().getString(R.string.key_recipe_step_details_parcel));
-        recipe_step_long_description_textview.setText(recipeSteps.getRecipeStepDescription());
-        if (recipeSteps.getRecipeStepVideoURL() != null && recipeSteps.getRecipeStepVideoURL() != "") {
-            //if(false){
-            recipe_step_imageview.setVisibility(View.GONE);
-            initializePlayer(Uri.parse(recipeSteps.getRecipeStepVideoURL()));
-        } else if (recipeSteps.getRecipeStepThumbnailURL() != null && recipeSteps.getRecipeStepThumbnailURL() != "") {
-            recipe_step_videoview.setVisibility(View.GONE);
-            releasePlayer();
-            // ToDo ImageView
-        } else {
-            recipe_step_imageview.setVisibility(View.GONE);
-            recipe_step_videoview.setVisibility(View.GONE);
+        if (getArguments() != null) {
+            recipeStepsArrayList = getArguments().getParcelableArrayList(getResources().getString(R.string.key_recipe_step_details_parcel));
+            currentPosition = getArguments().getInt(getResources().getString(R.string.key_recipe_step_details_selected_position));
+            recipeStepDetails = recipeStepsArrayList.get(currentPosition);
+            populateContent();
         }
-
         // ToDO - Play Video without RESUME on change in orientation
+
+
+        recipe_step_button_left_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentPosition > 0) {
+                    currentPosition--;
+                    recipeStepDetails = recipeStepsArrayList.get(currentPosition);
+                    populateContent();
+                } else {
+                    Utils.showToast(mContext, "This is the first step");
+                }
+            }
+        });
+
+
+        recipe_step_button_right_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentPosition < (recipeStepsArrayList.size() - 1)) {
+                    currentPosition++;
+                    recipeStepDetails = recipeStepsArrayList.get(currentPosition);
+                    populateContent();
+                } else{
+                    Utils.showToast(mContext, "This is the last step");
+                }
+            }
+        });
 
 
         return rootView;
@@ -186,18 +214,27 @@ public class RecipeStepDetailsFragment extends Fragment implements ExoPlayer.Eve
 
     @Override
     public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-
     }
 
     @Override
     public void onVisibilityChange(int visibility) {
-
     }
 
-    /*
-    RiskStepActivity call this method to populate data on Right Fragment for Tablet
+
+    /**
+     * display content on view
      */
-    public void displayStepDetails(RecipeSteps mRecipeSteps) {
-        //todo: populate data on the view
+    void populateContent() {
+        recipe_step_long_description_textview.setText(recipeStepDetails.getRecipeStepDescription());
+        if (recipeStepDetails.getRecipeStepVideoURL() != null && !recipeStepDetails.getRecipeStepVideoURL().equals("")) {
+            //if(false){
+            recipe_step_videoview.setVisibility(View.VISIBLE);
+            recipe_step_imageview.setVisibility(View.GONE);
+            initializePlayer(Uri.parse(recipeStepDetails.getRecipeStepVideoURL()));
+        } else {
+            recipe_step_videoview.setVisibility(View.GONE);
+            releasePlayer();
+            recipe_step_imageview.setVisibility(View.VISIBLE);
+        }
     }
 }

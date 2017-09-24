@@ -58,10 +58,14 @@ public class RecipeIngredientsFragment extends Fragment {
         return rootView;
     }
 
-    /*
-   RiskStepsActivity call this method to populate data on Right Fragment for Tablet
-    */
-    public void displayIngredients(ArrayList<RecipeIngredients> mRecipeIngredients) {
-        //todo: populate data on the view
-    }
+//    /*
+//   RiskStepsActivity call this method to populate data on Right Fragment for Tablet
+//    */
+//    public void displayIngredients(ArrayList<RecipeIngredients> mRecipeIngredients) {
+//        //todo: segregate common code to different function
+//        RecipeIngredientListAdapter recipeIngredientListAdapter = new RecipeIngredientListAdapter(mRecipeIngredients);
+//        recipe_ingridients_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        recipe_ingridients_recyclerview.setItemAnimator(new DefaultItemAnimator());
+//        recipe_ingridients_recyclerview.setAdapter(recipeIngredientListAdapter);
+//    }
 }
