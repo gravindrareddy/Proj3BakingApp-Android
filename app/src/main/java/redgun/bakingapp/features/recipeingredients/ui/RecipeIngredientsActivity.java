@@ -2,15 +2,10 @@ package redgun.bakingapp.features.recipeingredients.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
-
 import redgun.bakingapp.R;
-import redgun.bakingapp.features.recipesteps.ui.RecipeStepDetailsFragment;
-import redgun.bakingapp.models.RecipeIngredients;
 
 import static redgun.bakingapp.features.recipes.ui.RecipesActivity.mContext;
 
@@ -24,7 +19,7 @@ public class RecipeIngredientsActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe_ingredients);
+        setContentView(R.layout.doubt_activity_recipe_ingredients);
         mSavedInstanceState = savedInstanceState;
         mContext = this;
         Intent i = getIntent();

@@ -7,20 +7,17 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,8 +34,6 @@ import redgun.bakingapp.models.Recipes;
 import redgun.bakingapp.utilities.NetworkUtils;
 import redgun.bakingapp.utilities.RecyclerTouchListener;
 
-import static redgun.bakingapp.data.RecipesProvider.getRecipesFromURL;
-
 /**
  * Created by Ravindra on 29-05-2017.
  */
@@ -50,6 +45,7 @@ public class RecipesActivity extends AppCompatActivity implements LoaderManager.
     RecyclerView recipes_recyclerview;
     private RecipesAdapter mRecipeAdapter;
     static String mTAG;
+    boolean mTwoPane;
 
 
     @Override
@@ -61,6 +57,7 @@ public class RecipesActivity extends AppCompatActivity implements LoaderManager.
         recipes_recyclerview = (RecyclerView) findViewById(R.id.recipes_recyclerview);
         if (NetworkUtils.isOnline(mContext)) {
             getSupportLoaderManager().initLoader(RECIPE_LOADER, null, this).forceLoad();
+            //getLoaderManager().getLoader(RECIPE_LOADER).forceLoad();
         }
         recipes_recyclerview.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recipes_recyclerview, new RecyclerTouchListener.ClickListener() {
             @Override
@@ -80,31 +77,26 @@ public class RecipesActivity extends AppCompatActivity implements LoaderManager.
 
     @Override
     public Loader<ArrayList<Recipes>> onCreateLoader(int id, Bundle args) {
+
+        Loader<ArrayList<Recipes>> recipes = new Loader<ArrayList<Recipes>>(mContext);
+
         switch (id) {
             case RECIPE_LOADER:
-                return new RecipesProvider.FetchRecipes(this);
+                recipes = new RecipesProvider.FetchRecipes(mContext);
         }
-        return new RecipesProvider.FetchRecipes(this);
+        return recipes;
     }
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Recipes>> loader, ArrayList<Recipes> data) {
         recipesList = data;
         mRecipeAdapter = new RecipesAdapter(recipesList);
+
         //this will define the dynamic column count for phone and tablet
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.recipes_recycler_count));
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.recipes_per_row));
         recipes_recyclerview.setLayoutManager(mLayoutManager);
         recipes_recyclerview.setItemAnimator(new DefaultItemAnimator());
         recipes_recyclerview.setAdapter(mRecipeAdapter);
-        JSONObject json = new JSONObject();
-        try {
-            json.put("uniqueArrays", recipesList);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        String arrayList = json.toString();
 
 
         Gson gson = new GsonBuilder().create();
@@ -117,17 +109,14 @@ public class RecipesActivity extends AppCompatActivity implements LoaderManager.
                 .appendPath(getResources().getString(R.string.contentprovider_recipe_entry)).build();
 
         Cursor _cursor = getContentResolver().query(_uri, null, null, null, null);
-        if (_cursor != null && _cursor.getCount() > 0) {
+
+        //Persist data locally to access in other screens (Recipe steps and Step Details)
+        if (_cursor == null || _cursor.getCount() <= 0) {
             _cursor.moveToFirst();
             ContentValues recipeContentValues = new ContentValues();
             recipeContentValues.put(RecipesContract.RecipeEntry.COLUMN_RECIPES_JSON, jsonStr);
-            getContentResolver().update(RecipesContract.RecipeEntry.CONTENT_URI, recipeContentValues, RecipesContract.RecipeEntry._ID + "=?", new String[]{_cursor.getInt(_cursor.getColumnIndex(RecipesContract.RecipeEntry._ID)) + ""});
-            _cursor.close();
-        } else {
-            //ToDo fetch data.. if no data exists in DB insert, else, update
-            ContentValues recipeContentValues = new ContentValues();
-            recipeContentValues.put(RecipesContract.RecipeEntry.COLUMN_RECIPES_JSON, jsonStr);
             getContentResolver().insert(RecipesContract.RecipeEntry.CONTENT_URI, recipeContentValues);
+            _cursor.close();
         }
 
     }

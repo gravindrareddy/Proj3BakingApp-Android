@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/recipe_step_details_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/card_white"
@@ -13,7 +14,7 @@
         android:scaleType="centerCrop"
         android:src="@drawable/placeholder_video" />
 
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+    <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/recipe_step_videoview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,4 +49,4 @@
             android:text="Next Step" />
     </LinearLayout>
 
-</LinearLayout>
+</fragment>

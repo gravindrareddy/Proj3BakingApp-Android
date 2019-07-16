@@ -19,7 +19,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            android:label="@string/activity_recipe_steps_name"
+
         </activity>
         <activity
             android:name=".features.recipesteps.ui.RecipeStepsActivity"

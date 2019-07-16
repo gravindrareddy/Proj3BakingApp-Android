@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -35,10 +36,12 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlaybackControlView;
+import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
@@ -47,23 +50,28 @@ import redgun.bakingapp.R;
 import redgun.bakingapp.models.RecipeSteps;
 import redgun.bakingapp.utilities.Utils;
 
-import static com.google.android.exoplayer2.mediacodec.MediaCodecInfo.TAG;
-
 
 /**
  * Created by Ravindra on 29-05-2017.
  */
 
-public class RecipeStepDetailsFragment extends Fragment implements ExoPlayer.EventListener,
-        PlaybackControlView.VisibilityListener {
+public class RecipeStepDetailsFragment extends Fragment{
     ImageView recipe_step_imageview;
-    SimpleExoPlayerView recipe_step_videoview;
+    PlayerView recipe_step_videoview;
     TextView recipe_step_long_description_textview;
     ArrayList<RecipeSteps> recipeStepsArrayList;
     RecipeSteps recipeStepDetails;
     int currentPosition;
     Context mContext;
     Button recipe_step_button_left_button, recipe_step_button_right_button;
+    String TAG="RecipeStepDetailsFragment";
+
+    boolean playWhenReady;
+    int currentWindow;
+    long playbackPosition;
+
+
+
 
     private SimpleExoPlayer player;
     private ExoPlayer.EventListener exoPlayerEventListener;
@@ -72,8 +80,9 @@ public class RecipeStepDetailsFragment extends Fragment implements ExoPlayer.Eve
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_recipe_step_details, container, false);
+
         recipe_step_imageview = (ImageView) rootView.findViewById(R.id.recipe_step_imageview);
-        recipe_step_videoview = (SimpleExoPlayerView) rootView.findViewById(R.id.recipe_step_videoview);
+        recipe_step_videoview = (PlayerView) rootView.findViewById(R.id.recipe_step_videoview);
         recipe_step_long_description_textview = (TextView) rootView.findViewById(R.id.recipe_step_long_description_textview);
         recipe_step_button_right_button = (Button) rootView.findViewById(R.id.recipe_step_button_right_button);
         recipe_step_button_left_button = (Button) rootView.findViewById(R.id.recipe_step_button_left_button);
@@ -142,36 +151,56 @@ public class RecipeStepDetailsFragment extends Fragment implements ExoPlayer.Eve
         releasePlayer();
     }
 
+
     private void initializePlayer(Uri mediaUri) {
-        //creating the player
-        boolean needNewPlayer = player == null;
-        if (needNewPlayer) {
-            Handler mainHandler = new Handler();
-            BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-            TrackSelection.Factory trackSelectionFactory =
-                    new AdaptiveTrackSelection.Factory(bandwidthMeter);
-            TrackSelector trackSelector =
-                    new DefaultTrackSelector(trackSelectionFactory);
-            LoadControl loadControl = new DefaultLoadControl();
-            player = ExoPlayerFactory.newSimpleInstance(mContext, trackSelector);
+        player = ExoPlayerFactory.newSimpleInstance(
+                new DefaultRenderersFactory(mContext),
+                new DefaultTrackSelector(), new DefaultLoadControl());
 
-            //attaching the player to the view
-            recipe_step_videoview.setUseController(true);
-            recipe_step_videoview.requestFocus();
-            recipe_step_videoview.setPlayer(player);
-        }
+        recipe_step_videoview.setPlayer(player);
 
-        //preparing the player
-        player.prepare(buildMediaSource(mediaUri));
-        //player.setPlayWhenReady(true);
+        player.setPlayWhenReady(playWhenReady);
+        player.seekTo(currentWindow, playbackPosition);
+
+
+        //Uri uri = Uri.parse(recipeStepDetails.getRecipeStepVideoURL());
+        MediaSource mediaSource = buildMediaSource(mediaUri);
+        player.prepare(mediaSource, true, false);
     }
 
-    private MediaSource buildMediaSource(Uri mediaUri) {
-        DefaultBandwidthMeter bandwidthMeterA = new DefaultBandwidthMeter();
-        DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(mContext, Util.getUserAgent(mContext, mContext.getResources().getString(R.string.app_name)), bandwidthMeterA);
-        ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-        MediaSource videoSource = new ExtractorMediaSource(mediaUri, dataSourceFactory, extractorsFactory, null, null);
-        return videoSource;
+
+
+
+//    private void initializePlayer(Uri mediaUri) {
+//        //creating the player
+//        boolean needNewPlayer = player == null;
+//        if (needNewPlayer) {
+//            Handler mainHandler = new Handler();
+//            BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+//            TrackSelection.Factory trackSelectionFactory =
+//                    new AdaptiveTrackSelection.Factory(bandwidthMeter);
+//            TrackSelector trackSelector =
+//                    new DefaultTrackSelector(trackSelectionFactory);
+//            LoadControl loadControl = new DefaultLoadControl();
+//            player = ExoPlayerFactory.newSimpleInstance(mContext, trackSelector);
+//
+//            //attaching the player to the view
+//            recipe_step_videoview.setUseController(true);
+//            recipe_step_videoview.requestFocus();
+//            recipe_step_videoview.setPlayer(player);
+//        }
+//
+//        //preparing the player
+//        player.prepare(buildMediaSource(mediaUri));
+//        //player.setPlayWhenReady(true);
+//    }
+
+
+
+    private MediaSource buildMediaSource(Uri uri) {
+        return new ExtractorMediaSource.Factory(
+                new DefaultHttpDataSourceFactory(Util.getUserAgent(mContext, mContext.getResources().getString(R.string.app_name)))).
+                createMediaSource(uri);
     }
 
     private void releasePlayer() {
@@ -180,50 +209,6 @@ public class RecipeStepDetailsFragment extends Fragment implements ExoPlayer.Eve
             player.release();
             player = null;
         }
-    }
-
-    @Override
-    public void onLoadingChanged(boolean isLoading) {
-        Log.v(TAG, "Listener-onLoadingChanged...");
-    }
-
-    @Override
-    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-        Log.v(TAG, "Listener-onPlayerStateChanged...");
-        if (playbackState == ExoPlayer.STATE_READY && playWhenReady) {
-            Log.v(TAG, "Listener-onPlayerStateChanged...Playing");
-        } else if (playbackState == ExoPlayer.STATE_READY) {
-            Log.v(TAG, "Listener-onPlayerStateChanged...Paused");
-        }
-    }
-
-    @Override
-    public void onTimelineChanged(Timeline timeline, Object manifest) {
-        Log.v(TAG, "Listener-onTimelineChanged...");
-    }
-
-    @Override
-    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-
-    }
-
-    @Override
-    public void onPlayerError(ExoPlaybackException error) {
-        Log.v(TAG, "Listener-onPlayerError...");
-        player.stop();
-    }
-
-    @Override
-    public void onPositionDiscontinuity() {
-        Log.v(TAG, "Listener-onPositionDiscontinuity...");
-    }
-
-    @Override
-    public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-    }
-
-    @Override
-    public void onVisibilityChange(int visibility) {
     }
 
 

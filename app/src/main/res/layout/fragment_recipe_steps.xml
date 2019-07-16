@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/card_white"
+    android:id="@+id/recipe_step_fragment"
     android:orientation="vertical">
 
 
@@ -61,4 +62,4 @@
         android:padding="@dimen/app_padding_mini_default" />
 
 
-</LinearLayout>
+</fragment>

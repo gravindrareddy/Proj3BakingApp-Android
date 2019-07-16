@@ -54,9 +54,10 @@ public class RecipeStepsActivity extends AppCompatActivity implements OnRecipeSt
         }
 
 
-        if (findViewById(R.id.recipe_step_details_fragment_relative_layout) != null) {
+        if (findViewById(R.id.recipe_steps_twopane_relativelayout) != null) {
             mTwoPane = true;
             if (savedInstanceState == null) {
+                //todo - tablet view. fill the fragments and prepare the view
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList(getResources().getString(R.string.key_recipe_ingredients_parcel), intentReceivedRecipe.getRecipeIngredients());
@@ -65,6 +66,7 @@ public class RecipeStepsActivity extends AppCompatActivity implements OnRecipeSt
                 fragmentManager.beginTransaction().add(R.id.recipe_step_ingredients_or_details_fragment, recipeIngredientsFragment).commit();
             }
         } else {
+            //todo - phone view.
             mTwoPane = false;
         }
     }

@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import redgun.bakingapp.R;
 import redgun.bakingapp.features.recipeingredients.adapter.RecipeIngredientListAdapter;
 import redgun.bakingapp.models.RecipeIngredients;
-import redgun.bakingapp.models.RecipeSteps;
-import redgun.bakingapp.models.Recipes;
 
 /**
  * Created by Ravindra on 29-05-2017.
@@ -42,7 +40,7 @@ public class RecipeIngredientsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_recipe_ingredients, container, false);
+        View rootView = inflater.inflate(R.layout.doubt_fragment_recipe_ingredients, container, false);
         recipe_ingridients_recyclerview = (RecyclerView) rootView.findViewById(R.id.recipe_ingridients_recyclerview);
 
         if (getArguments() != null) {

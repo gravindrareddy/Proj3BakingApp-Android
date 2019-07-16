@@ -274,7 +274,6 @@ public class RecipesProvider extends ContentProvider {
 
         @Override
         public ArrayList<Recipes> loadInBackground() {
-            HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
             ArrayList<Recipes> recipesArrayList = new ArrayList<Recipes>();
             try {
@@ -286,9 +285,6 @@ public class RecipesProvider extends ContentProvider {
                 e.printStackTrace();
                 return null;
             } finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
                 if (reader != null) {
                     try {
                         reader.close();

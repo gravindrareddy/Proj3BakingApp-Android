@@ -2,29 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/recipe_steps_twopane_relativelayout"
     android:orientation="horizontal">
 
-    <FrameLayout
+    <fragment
         android:id="@+id/recipe_steps_fragment"
         android:name="redgun.bakingapp.features.recipesteps.ui.RecipeStepsFragment"
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"></fragment>
 
     <View
         android:layout_width="2dp"
         android:layout_height="match_parent"
         android:background="@android:color/darker_gray" />
 
-    <RelativeLayout
-        android:id="@+id/recipe_step_details_fragment_relative_layout"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent">
 
-        <FrameLayout
+        <fragment
             android:id="@+id/recipe_step_ingredients_or_details_fragment"
+            android:name="redgun.bakingapp.features.recipesteps.ui.RecipeStepDetailsFragment"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"></FrameLayout>
-    </RelativeLayout>
+            android:layout_height="match_parent"></fragment>
+
 </LinearLayout>
