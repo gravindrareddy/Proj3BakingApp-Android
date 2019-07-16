@@ -12,7 +12,7 @@ import redgun.bakingapp.features.recipeingredients.ui.RecipeIngredientsActivity;
 import redgun.bakingapp.features.recipeingredients.ui.RecipeIngredientsFragment;
 import redgun.bakingapp.models.Recipes;
 import redgun.bakingapp.utilities.OnRecipeIngredientClickListener;
-import redgun.bakingapp.utilities.OnRecipeStepClickListener;
+
 
 
 import static redgun.bakingapp.features.recipes.ui.RecipesActivity.mContext;
@@ -24,7 +24,7 @@ import static redgun.bakingapp.features.recipes.ui.RecipesActivity.mContext;
 
 //todo: work on data flow due to flow change of recipe ingridients
 
-public class RecipeStepsActivity extends AppCompatActivity implements OnRecipeStepClickListener, OnRecipeIngredientClickListener {
+public class RecipeStepsActivity extends AppCompatActivity implements RecipeStepsFragment.OnRecipeStepClickListener, OnRecipeIngredientClickListener {
     Recipes intentReceivedRecipe;
 
     private boolean mTwoPane;

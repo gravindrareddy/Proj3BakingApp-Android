@@ -15,7 +15,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import redgun.bakingapp.utilities.OnRecipeIngredientClickListener;
-import redgun.bakingapp.utilities.OnRecipeStepClickListener;
 import redgun.bakingapp.R;
 import redgun.bakingapp.features.recipeingredients.adapter.RecipeIngredientListAdapter;
 import redgun.bakingapp.models.RecipeIngredients;
@@ -35,19 +34,25 @@ public class RecipeStepsFragment extends Fragment {
     Recipes recipes;
     ArrayList<RecipeIngredients> recipeIngredientsesList;
     private boolean mTwoPane;
-    OnRecipeStepClickListener mOnRecipeStepClickListener;
+    OnRecipeStepClickListener mRecipeStepCallback;
     OnRecipeIngredientClickListener mOnRecipeIngredientClickListener;
 
     public RecipeStepsFragment() {
 
     }
 
+
+    public interface OnRecipeStepClickListener {
+        void onRecipeStepClicked(int position);
+    }
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
         try {
-            mOnRecipeStepClickListener = (OnRecipeStepClickListener) context;
+            mRecipeStepCallback = (OnRecipeStepClickListener) context;
             mOnRecipeIngredientClickListener = (OnRecipeIngredientClickListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString());
@@ -75,9 +80,10 @@ public class RecipeStepsFragment extends Fragment {
 
             //Fill Receipt Steps of the selected Receipt (on main view or left side view)
             RecipeStepsListAdapter recipeStepListAdapter = new RecipeStepsListAdapter(recipes.getRecipeSteps());
-            recipeStepListAdapter.setOnItemClickListener(mOnRecipeStepClickListener);
-            recipe_steps_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+            //recipeStepListAdapter.setOnItemClickListener(mRecipeStepCallback);
+
             recipe_steps_recyclerview.setAdapter(recipeStepListAdapter);
+            recipe_steps_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
 
             //Fill Receipt Ingredients of the selected Receipt on Right side view
             //todo: this is only for two pane view
