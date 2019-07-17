@@ -1,4 +1,4 @@
-package redgun.bakingapp.features.recipeingredients.adapter;
+package redgun.bakingapp.features.recipestepsingridients.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,12 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import redgun.bakingapp.R;
 import redgun.bakingapp.models.RecipeIngredients;
-
-import static redgun.bakingapp.features.recipes.ui.RecipesActivity.recipesList;
 
 /**
  * Created by Ravindra on 29-05-2017.

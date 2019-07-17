@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:background="@color/background_grey"
     android:orientation="vertical">
-    <FrameLayout
+    <fragment
         android:id="@+id/recipe_ingredients_fragment"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"></fragment>
 </RelativeLayout>

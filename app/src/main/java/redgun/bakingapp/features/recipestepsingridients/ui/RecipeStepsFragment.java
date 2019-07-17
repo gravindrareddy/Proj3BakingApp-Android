@@ -1,10 +1,9 @@
-package redgun.bakingapp.features.recipesteps.ui;
+package redgun.bakingapp.features.recipestepsingridients.ui;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,12 +15,10 @@ import java.util.ArrayList;
 
 import redgun.bakingapp.utilities.OnRecipeIngredientClickListener;
 import redgun.bakingapp.R;
-import redgun.bakingapp.features.recipeingredients.adapter.RecipeIngredientListAdapter;
+import redgun.bakingapp.features.recipestepsingridients.adapter.RecipeIngredientListAdapter;
 import redgun.bakingapp.models.RecipeIngredients;
 import redgun.bakingapp.models.Recipes;
-import redgun.bakingapp.features.recipesteps.adapter.RecipeStepsListAdapter;
-
-import static redgun.bakingapp.R.id.recipe_ingridients_recyclerview;
+import redgun.bakingapp.features.recipestepsingridients.adapter.RecipeStepsListAdapter;
 
 /**
  * Created by Ravindra on 29-05-2017.
@@ -50,7 +47,6 @@ public class RecipeStepsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         try {
             mRecipeStepCallback = (OnRecipeStepClickListener) context;
             mOnRecipeIngredientClickListener = (OnRecipeIngredientClickListener) context;
@@ -75,24 +71,23 @@ public class RecipeStepsFragment extends Fragment {
             }
         });
 
-        if (getArguments() != null) {
-            recipes = getArguments().getParcelable(getResources().getString(R.string.key_recipe_parcel));
+            RecipeStepsActivity rs = (RecipeStepsActivity) getActivity();
+            recipes = rs.intentReceivedRecipe;
+        //Fill Receipt Steps of the selected Receipt (on main view or left side view)
+        RecipeStepsListAdapter recipeStepListAdapter = new RecipeStepsListAdapter(recipes.getRecipeSteps());
+        recipeStepListAdapter.setOnItemClickListener(mRecipeStepCallback);
 
-            //Fill Receipt Steps of the selected Receipt (on main view or left side view)
-            RecipeStepsListAdapter recipeStepListAdapter = new RecipeStepsListAdapter(recipes.getRecipeSteps());
-            //recipeStepListAdapter.setOnItemClickListener(mRecipeStepCallback);
+        recipe_steps_recyclerview.setAdapter(recipeStepListAdapter);
+        recipe_steps_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-            recipe_steps_recyclerview.setAdapter(recipeStepListAdapter);
-            recipe_steps_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //Fill Receipt Ingredients of the selected Receipt on Right side view
 
-            //Fill Receipt Ingredients of the selected Receipt on Right side view
-            //todo: this is only for two pane view
-            RecipeIngredientListAdapter recipeIngredientListAdapter = new RecipeIngredientListAdapter(recipes.getRecipeIngredients());
+
+        //todo: this is only for two pane view
+        RecipeIngredientListAdapter recipeIngredientListAdapter = new RecipeIngredientListAdapter(recipes.getRecipeIngredients());
 //            recipe_ingridients_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
 //            recipe_ingridients_recyclerview.setItemAnimator(new DefaultItemAnimator());
 //            recipe_ingridients_recyclerview.setAdapter(recipeIngredientListAdapter);
-        } else {
-        }
         return rootView;
     }
 }

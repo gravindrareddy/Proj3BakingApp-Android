@@ -22,15 +22,12 @@
 
         </activity>
         <activity
-            android:name=".features.recipesteps.ui.RecipeStepsActivity"
+            android:name=".features.recipestepsingridients.ui.RecipeStepsActivity"
             android:label="@string/activity_recipe_steps_name" />
         <activity
-            android:name=".features.recipesteps.ui.RecipeStepDetailsActivity"
+            android:name=".features.recipestepsingridients.ui.RecipeStepAndIngridientDetailsActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/activity_recipe_step_details_name" />
-        <activity
-            android:name=".features.recipeingredients.ui.RecipeIngredientsActivity"
-            android:label="@string/activity_recipe_ingredients_name" />
 
         <receiver android:name=".widget.RecipeWidgetProvider">
             <intent-filter>

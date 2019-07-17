@@ -4,7 +4,7 @@
     android:id="@+id/listitem_recipe_step_linearlayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background_grey"
+    android:background="@color/card_white"
     android:orientation="horizontal"
     android:paddingTop="@dimen/app_padding_mini_default">
 
@@ -18,10 +18,7 @@
         android:padding="@dimen/app_padding_default"
         android:textSize="@dimen/heading_text_size" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@color/card_white">
+
 
         <ImageView
             android:layout_width="@dimen/icon_size"
@@ -34,4 +31,3 @@
             android:scaleType="center"
             android:visibility="visible" />
     </LinearLayout>
-</LinearLayout>

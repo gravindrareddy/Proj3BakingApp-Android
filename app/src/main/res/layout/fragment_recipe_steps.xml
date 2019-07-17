@@ -26,22 +26,17 @@
             android:textSize="@dimen/heading_text_size" />
 
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/card_white">
+        <ImageView
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_gravity="center_vertical"
+            android:adjustViewBounds="true"
+            android:background="@drawable/icon_next"
+            android:cropToPadding="true"
+            android:padding="@dimen/app_padding_default"
+            android:scaleType="center"
+            android:visibility="visible" />
 
-            <ImageView
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:layout_gravity="center_vertical"
-                android:adjustViewBounds="true"
-                android:background="@drawable/icon_next"
-                android:cropToPadding="true"
-                android:padding="@dimen/app_padding_default"
-                android:scaleType="center"
-                android:visibility="visible" />
-        </LinearLayout>
     </LinearLayout>
 
     <TextView

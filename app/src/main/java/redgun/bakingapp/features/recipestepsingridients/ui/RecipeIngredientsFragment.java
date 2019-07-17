@@ -1,4 +1,4 @@
-package redgun.bakingapp.features.recipeingredients.ui;
+package redgun.bakingapp.features.recipestepsingridients.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import redgun.bakingapp.R;
-import redgun.bakingapp.features.recipeingredients.adapter.RecipeIngredientListAdapter;
+import redgun.bakingapp.features.recipestepsingridients.adapter.RecipeIngredientListAdapter;
 import redgun.bakingapp.models.RecipeIngredients;
 
 /**
@@ -40,7 +40,7 @@ public class RecipeIngredientsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.doubt_fragment_recipe_ingredients, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_recipe_ingredients, container, false);
         recipe_ingridients_recyclerview = (RecyclerView) rootView.findViewById(R.id.recipe_ingridients_recyclerview);
 
         if (getArguments() != null) {
@@ -50,7 +50,7 @@ public class RecipeIngredientsFragment extends Fragment {
             recipe_ingridients_recyclerview.setItemAnimator(new DefaultItemAnimator());
             recipe_ingridients_recyclerview.setAdapter(recipeIngredientListAdapter);
         } else {
-
+// ToDo: no ingridients available message
         }
 
         return rootView;

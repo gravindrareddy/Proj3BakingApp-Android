@@ -12,22 +12,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 import redgun.bakingapp.R;
-import redgun.bakingapp.features.recipesteps.ui.RecipeStepsActivity;
+import redgun.bakingapp.features.recipestepsingridients.ui.RecipeStepsActivity;
 import redgun.bakingapp.features.recipes.adapter.RecipesAdapter;
-import redgun.bakingapp.features.settings.SettingsActivity;
 import redgun.bakingapp.data.RecipesContract;
 import redgun.bakingapp.data.RecipesProvider;
 import redgun.bakingapp.models.Recipes;
@@ -57,7 +51,6 @@ public class RecipesActivity extends AppCompatActivity implements LoaderManager.
         recipes_recyclerview = (RecyclerView) findViewById(R.id.recipes_recyclerview);
         if (NetworkUtils.isOnline(mContext)) {
             getSupportLoaderManager().initLoader(RECIPE_LOADER, null, this).forceLoad();
-            //getLoaderManager().getLoader(RECIPE_LOADER).forceLoad();
         }
         recipes_recyclerview.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recipes_recyclerview, new RecyclerTouchListener.ClickListener() {
             @Override
@@ -125,26 +118,5 @@ public class RecipesActivity extends AppCompatActivity implements LoaderManager.
     public void onLoaderReset(Loader<ArrayList<Recipes>> loader) {
 
     }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);//Menu Resource, Menu
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.settings:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                intent.putParcelableArrayListExtra(getResources().getString(R.string.key_recipes_list_parcel), recipesList);
-                startActivity(intent);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
 
 }
