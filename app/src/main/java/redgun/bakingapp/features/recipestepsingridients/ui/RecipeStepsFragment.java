@@ -67,27 +67,16 @@ public class RecipeStepsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mOnRecipeIngredientClickListener.onRecipeIngredientClicked();
-                //todo: call recipe ingredients view
             }
         });
 
-            RecipeStepsActivity rs = (RecipeStepsActivity) getActivity();
-            recipes = rs.intentReceivedRecipe;
-        //Fill Receipt Steps of the selected Receipt (on main view or left side view)
+        RecipeStepsActivity rs = (RecipeStepsActivity) getActivity();
+        recipes = rs.intentReceivedRecipe;
         RecipeStepsListAdapter recipeStepListAdapter = new RecipeStepsListAdapter(recipes.getRecipeSteps());
         recipeStepListAdapter.setOnItemClickListener(mRecipeStepCallback);
-
         recipe_steps_recyclerview.setAdapter(recipeStepListAdapter);
         recipe_steps_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        //Fill Receipt Ingredients of the selected Receipt on Right side view
-
-
-        //todo: this is only for two pane view
         RecipeIngredientListAdapter recipeIngredientListAdapter = new RecipeIngredientListAdapter(recipes.getRecipeIngredients());
-//            recipe_ingridients_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-//            recipe_ingridients_recyclerview.setItemAnimator(new DefaultItemAnimator());
-//            recipe_ingridients_recyclerview.setAdapter(recipeIngredientListAdapter);
         return rootView;
     }
 }

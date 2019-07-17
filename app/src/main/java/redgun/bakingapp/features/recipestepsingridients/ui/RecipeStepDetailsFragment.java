@@ -152,33 +152,6 @@ public class RecipeStepDetailsFragment extends Fragment{
 
 
 
-
-//    private void initializePlayer(Uri mediaUri) {
-//        //creating the player
-//        boolean needNewPlayer = player == null;
-//        if (needNewPlayer) {
-//            Handler mainHandler = new Handler();
-//            BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-//            TrackSelection.Factory trackSelectionFactory =
-//                    new AdaptiveTrackSelection.Factory(bandwidthMeter);
-//            TrackSelector trackSelector =
-//                    new DefaultTrackSelector(trackSelectionFactory);
-//            LoadControl loadControl = new DefaultLoadControl();
-//            player = ExoPlayerFactory.newSimpleInstance(mContext, trackSelector);
-//
-//            //attaching the player to the view
-//            recipe_step_videoview.setUseController(true);
-//            recipe_step_videoview.requestFocus();
-//            recipe_step_videoview.setPlayer(player);
-//        }
-//
-//        //preparing the player
-//        player.prepare(buildMediaSource(mediaUri));
-//        //player.setPlayWhenReady(true);
-//    }
-
-
-
     private MediaSource buildMediaSource(Uri uri) {
         return new ExtractorMediaSource.Factory(
                 new DefaultHttpDataSourceFactory(Util.getUserAgent(mContext, mContext.getResources().getString(R.string.app_name)))).

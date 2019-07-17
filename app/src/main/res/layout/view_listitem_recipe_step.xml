@@ -19,15 +19,14 @@
         android:textSize="@dimen/heading_text_size" />
 
 
-
-        <ImageView
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:layout_gravity="center_vertical"
-            android:adjustViewBounds="true"
-            android:background="@drawable/icon_next"
-            android:cropToPadding="true"
-            android:padding="@dimen/app_padding_default"
-            android:scaleType="center"
-            android:visibility="visible" />
-    </LinearLayout>
+    <ImageView
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_gravity="center_vertical"
+        android:adjustViewBounds="true"
+        android:background="@drawable/icon_next"
+        android:cropToPadding="true"
+        android:padding="@dimen/app_padding_default"
+        android:scaleType="center"
+        android:visibility="visible" />
+</LinearLayout>

@@ -25,31 +25,24 @@ public class RecipeStepAndIngridientDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_step_details_or_ingridients);
         mSavedInstanceState = savedInstanceState;
         mContext = this;
-        Intent i = getIntent();
+        Intent mIntent = getIntent();
 
         //this will enable Back button
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-String recipesteporingredient = i.getStringExtra(getResources().getString(R.string.key_recipe_steps_or_ingredients));
-
-        // todo: determine recipe step or ingredients
-
-
-
-
-
+        String recipesteporingredient = mIntent.getStringExtra(getResources().getString(R.string.key_recipe_steps_or_ingredients));
 
 
         if (mSavedInstanceState == null) {
-            if(recipesteporingredient.equals(getString(R.string.const_recipes))){ // Inflate Recipe steps
-                Bundle intentReceivedRecipeStepDetails = i.getExtras().getBundle(getResources().getString(R.string.key_recipe_step_details_bundle));
+            if (recipesteporingredient.equals(getString(R.string.const_recipes))) { // Inflate Recipe steps
+                Bundle intentReceivedRecipeStepDetails = mIntent.getExtras().getBundle(getResources().getString(R.string.key_recipe_step_details_bundle));
                 RecipeStepDetailsFragment newRecipeStepDetailsFragment = new RecipeStepDetailsFragment();
-            newRecipeStepDetailsFragment.setArguments(intentReceivedRecipeStepDetails);
-            getSupportFragmentManager().beginTransaction().add(R.id.recipe_step_ingredients_or_details_fragment, newRecipeStepDetailsFragment).commit();}
-            else if(recipesteporingredient.equals(getString(R.string.const_ingredients))){ // Inflate Recipe Ingridients
+                newRecipeStepDetailsFragment.setArguments(intentReceivedRecipeStepDetails);
+                getSupportFragmentManager().beginTransaction().add(R.id.recipe_step_ingredients_or_details_fragment, newRecipeStepDetailsFragment).commit();
+            } else if (recipesteporingredient.equals(getString(R.string.const_ingredients))) { // Inflate Recipe Ingridients
                 RecipeIngredientsFragment mRecipeIngredientsFragment = new RecipeIngredientsFragment();
                 Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList(getResources().getString(R.string.key_recipe_ingredients_parcel), i.getParcelableArrayListExtra(getResources().getString(R.string.key_recipe_ingredients_parcel)));
+                bundle.putParcelableArrayList(getResources().getString(R.string.key_recipe_ingredients_parcel), mIntent.getExtras().getBundle(getResources().getString(R.string.key_recipe_ingredients_bundle)).getParcelableArrayList(getResources().getString(R.string.key_recipe_ingredients_parcel)));
                 mRecipeIngredientsFragment.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().add(R.id.recipe_step_ingredients_or_details_fragment, mRecipeIngredientsFragment).commit();
             }

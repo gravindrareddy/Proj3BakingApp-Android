@@ -11,7 +11,6 @@ import redgun.bakingapp.models.Recipes;
 import redgun.bakingapp.utilities.OnRecipeIngredientClickListener;
 
 
-
 import static redgun.bakingapp.features.recipes.ui.RecipesActivity.mContext;
 
 /**
@@ -41,15 +40,11 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
         //For tablet
         if (findViewById(R.id.recipe_steps_twopane_relativelayout) != null) {
             mTwoPane = true;
 
-            //todo - look at mSavedinstance related code
             if (savedInstanceState == null) {
-                //todo - tablet view. fill the fragments and prepare the view
-                // is this ingridients code required here?
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(getResources().getString(R.string.key_recipe_parcel), intentReceivedRecipe);
@@ -77,31 +72,6 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
         }
     }
 
-
-//    @Override
-//    public void onRecipeStepClicked(int position) {
-//        Bundle bundle = new Bundle();
-//        bundle.putParcelable(getResources().getString(R.string.key_recipe_step_details_parcel), intentReceivedRecipe.getRecipeSteps().get(position));
-//        if (mTwoPane) {
-//            if (mSavedInstanceState == null) {
-//                FragmentManager fragmentManager = getSupportFragmentManager();
-//                recipeStepDetailsFragment = fragmentManager.findFragmentById(R.id.recipe_step_details_fragment);
-//                RecipeStepDetailsFragment recipeStepDetailsFragment = new RecipeStepDetailsFragment();
-//                recipeStepDetailsFragment.setArguments(bundle);
-//                fragmentManager.beginTransaction().add(R.id.recipe_step_details_fragment, recipeStepDetailsFragment).commit();
-//            } else {
-//                RecipeStepDetailsFragment newRecipeStepDetailsFragment = new RecipeStepDetailsFragment();
-//                recipeStepDetailsFragment.setArguments(bundle);
-//                getSupportFragmentManager().beginTransaction().replace(R.id.recipe_step_details_fragment, newRecipeStepDetailsFragment).commit();
-//            }
-//        } else {
-//            Intent intent = new Intent(getApplicationContext(), RecipeStepAndIngridientDetailsActivity.class);
-//            intent.putExtra(getResources().getString(R.string.key_recipe_step_details_bundle), bundle);
-//            startActivity(intent);
-//        }
-//    }
-
-
     @Override
     public void onRecipeStepClicked(int position) {
         if (mTwoPane) {
@@ -113,11 +83,10 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
             recipeStepDetailsFragment.setArguments(bundle);
             fragmentManager.beginTransaction().replace(R.id.recipe_step_ingredients_or_details_fragment, recipeStepDetailsFragment).commit();
             // This will populate the relevant content on right side fragment
-            //recipeStepDetailsFragment.displayStepDetails(intentReceivedRecipe.getRecipeSteps().get(position));
         } else {
             // This will open the new view and populate relevant Activity with content
             Intent intent = new Intent(getApplicationContext(), RecipeStepAndIngridientDetailsActivity.class);
-            intent.putExtra(getString(R.string.key_recipe_steps_or_ingredients),getString(R.string.const_recipes));
+            intent.putExtra(getString(R.string.key_recipe_steps_or_ingredients), getString(R.string.const_recipes));
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(getResources().getString(R.string.key_recipe_step_details_parcel), intentReceivedRecipe.getRecipeSteps());
             bundle.putInt(getResources().getString(R.string.key_recipe_step_details_selected_position), position);
@@ -135,13 +104,12 @@ public class RecipeStepsActivity extends AppCompatActivity implements RecipeStep
             bundle.putParcelableArrayList(getResources().getString(R.string.key_recipe_ingredients_parcel), intentReceivedRecipe.getRecipeIngredients());
             recipeIngredientFragment.setArguments(bundle);
             fragmentManager.beginTransaction().replace(R.id.recipe_step_ingredients_or_details_fragment, recipeIngredientFragment).commit();
-            // This will populate the relevant content on right side fragment
-            //recipeIngredientFragment.displayIngredients(intentReceivedRecipe.getRecipeIngredients());
         } else {
-            // This will open the new view and populate relevant Activity with content
             Intent intent = new Intent(getApplicationContext(), RecipeStepAndIngridientDetailsActivity.class);
-            intent.putExtra(getString(R.string.key_recipe_steps_or_ingredients),getString(R.string.const_ingredients));
-            intent.putParcelableArrayListExtra(getResources().getString(R.string.key_recipe_ingredients_parcel), intentReceivedRecipe.getRecipeIngredients());
+            intent.putExtra(getString(R.string.key_recipe_steps_or_ingredients), getString(R.string.const_ingredients));
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList(getResources().getString(R.string.key_recipe_ingredients_parcel), intentReceivedRecipe.getRecipeIngredients());
+            intent.putExtra(getResources().getString(R.string.key_recipe_ingredients_bundle), bundle);
             startActivity(intent);
         }
     }

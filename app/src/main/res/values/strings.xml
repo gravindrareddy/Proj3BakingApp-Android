@@ -12,6 +12,7 @@
     <string name="key_recipe_step_details_selected_position">key_recipe_step_details_selected_position</string>
 
     <string name="key_recipe_step_details_bundle">key_recipe_step_details_bundle</string>
+    <string name="key_recipe_ingredients_bundle">key_recipe_ingredients_bundle</string>
     <string name="key_recipe_ingredients_parcel">key_recipe_ingredients_parcel</string>
     <string name="key_recipe_step_video">key_recipe_step_video</string>
     <string name="key_recipe_step_image">key_recipe_step_image</string>

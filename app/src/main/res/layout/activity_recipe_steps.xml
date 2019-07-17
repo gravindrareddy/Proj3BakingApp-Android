@@ -6,9 +6,8 @@
 
     <fragment
         android:id="@+id/recipe_steps_fragment"
+        class="redgun.bakingapp.features.recipestepsingridients.ui.RecipeStepsFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="redgun.bakingapp.features.recipestepsingridients.ui.RecipeStepsFragment">
-    </fragment>
+        android:layout_height="match_parent"></fragment>
 
 </RelativeLayout>

@@ -44,26 +44,12 @@ public class RecipeIngredientsFragment extends Fragment {
         recipe_ingridients_recyclerview = (RecyclerView) rootView.findViewById(R.id.recipe_ingridients_recyclerview);
 
         if (getArguments() != null) {
-            recipeIngredientsesList = getArguments().getParcelableArrayList(getResources().getString(R.string.key_recipe_ingredients_parcel));
+            recipeIngredientsesList = getArguments().getParcelableArrayList(getString(R.string.key_recipe_ingredients_parcel));
             RecipeIngredientListAdapter recipeIngredientListAdapter = new RecipeIngredientListAdapter(recipeIngredientsesList);
             recipe_ingridients_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
             recipe_ingridients_recyclerview.setItemAnimator(new DefaultItemAnimator());
             recipe_ingridients_recyclerview.setAdapter(recipeIngredientListAdapter);
-        } else {
-// ToDo: no ingridients available message
         }
-
         return rootView;
     }
-
-//    /*
-//   RiskStepsActivity call this method to populate data on Right Fragment for Tablet
-//    */
-//    public void displayIngredients(ArrayList<RecipeIngredients> mRecipeIngredients) {
-//        //todo: segregate common code to different function
-//        RecipeIngredientListAdapter recipeIngredientListAdapter = new RecipeIngredientListAdapter(mRecipeIngredients);
-//        recipe_ingridients_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        recipe_ingridients_recyclerview.setItemAnimator(new DefaultItemAnimator());
-//        recipe_ingridients_recyclerview.setAdapter(recipeIngredientListAdapter);
-//    }
 }

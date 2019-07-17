@@ -3,9 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView android:id="@+id/player_view"
+
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:id="@+id/player_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
+
     <FrameLayout
         android:id="@+id/recipe_step_ingredients_or_details_fragment"
         android:name="redgun.bakingapp.features.recipesteps.ui.RecipeStepsFragment"
