@@ -6,6 +6,6 @@
     android:minWidth="120dp"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="1800000"
-    android:widgetCategory="home_screen|keyguard">
-    android:autoAdvanceViewId="@id/widget_recipe_ingridients_listview"
+    android:widgetCategory="home_screen|keyguard"
+    >
 </appwidget-provider>

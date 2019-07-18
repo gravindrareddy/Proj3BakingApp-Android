@@ -24,7 +24,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.os.Looper;
 import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.CursorLoader;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -223,8 +225,13 @@ public class RecipesProvider extends ContentProvider {
         Uri _uri = builder.scheme("content")
                 .authority(context.getResources().getString(R.string.contentprovider_authority))
                 .appendPath(context.getResources().getString(R.string.contentprovider_recipe_entry)).build();
-
+        //Looper.prepare();
         Cursor _cursor = context.getContentResolver().query(_uri, null, null, null, null);
+
+        //CursorLoader cursorLoader = new CursorLoader(
+//                context,
+//                _uri, null, null, null, null);
+//        Cursor _cursor = cursorLoader.loadInBackground();
         if (_cursor != null && _cursor.getCount() > 0) {
             _cursor.moveToFirst();
             String recipesListStr = _cursor.getString(_cursor.getColumnIndex(RecipesContract.RecipeEntry.COLUMN_RECIPES_JSON));

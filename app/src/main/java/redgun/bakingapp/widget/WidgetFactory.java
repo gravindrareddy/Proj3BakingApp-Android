@@ -37,6 +37,8 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     //This is called for the first time & every time notifyAppWidgetViewDataChanged is triggered
     @Override
     public void onDataSetChanged() {
+
+        // here, the widget fetches the data required
         ArrayList<Recipes> recipesList = RecipesProvider.fetchRecipes(mContext);
         SharedPreferences sharedpreferences = mContext.getSharedPreferences(mContext.getResources().getString(R.string.pref_main), Context.MODE_PRIVATE);
         int selectedRecipeIndex = sharedpreferences.getInt(mContext.getResources().getString(R.string.prefered_recipe_index), -1);

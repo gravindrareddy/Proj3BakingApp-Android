@@ -16,5 +16,5 @@
         android:id="@+id/widget_recipe_ingridients_empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Please make a recipe as Fav to view the Ingredients List" />
+        android:text="Please select a recipe to view the Ingredients via settings from the home view" />
 </FrameLayout>

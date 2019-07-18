@@ -176,10 +176,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
-
             ListPreference recipeListPreference = (ListPreference) findPreference(getString(R.string.pref_recipes_list_key));
-            String[] recipeNames = new String[recipesList.size()];
             ArrayList<Recipes> recipesList = RecipesProvider.fetchRecipes(getActivity());
+            String[] recipeNames = new String[recipesList.size()];
             for (int i = 0; i < recipesList.size(); i++) {
                 recipeNames[i] = recipesList.get(i).getRecipeName();
             }

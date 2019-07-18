@@ -12,7 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -24,6 +28,7 @@ import redgun.bakingapp.features.recipestepsingridients.ui.RecipeStepsActivity;
 import redgun.bakingapp.features.recipes.adapter.RecipesAdapter;
 import redgun.bakingapp.data.RecipesContract;
 import redgun.bakingapp.data.RecipesProvider;
+import redgun.bakingapp.features.settings.SettingsActivity;
 import redgun.bakingapp.models.Recipes;
 import redgun.bakingapp.utilities.NetworkUtils;
 import redgun.bakingapp.utilities.RecyclerTouchListener;
@@ -40,6 +45,7 @@ public class RecipesActivity extends AppCompatActivity implements LoaderManager.
     private RecipesAdapter mRecipeAdapter;
     static String mTAG;
     boolean mTwoPane;
+    ProgressBar progressbar_cyclic;
 
 
     @Override
@@ -49,6 +55,7 @@ public class RecipesActivity extends AppCompatActivity implements LoaderManager.
         mContext = this;
         mTAG = this.getPackageName() + getLocalClassName();
         recipes_recyclerview = (RecyclerView) findViewById(R.id.recipes_recyclerview);
+        progressbar_cyclic = (ProgressBar) findViewById(R.id.progressbar_cyclic);
         if (NetworkUtils.isOnline(mContext)) {
             getSupportLoaderManager().initLoader(RECIPE_LOADER, null, this).forceLoad();
         }
@@ -71,7 +78,10 @@ public class RecipesActivity extends AppCompatActivity implements LoaderManager.
     @Override
     public Loader<ArrayList<Recipes>> onCreateLoader(int id, Bundle args) {
 
+        progressbar_cyclic.setVisibility(View.VISIBLE);
         Loader<ArrayList<Recipes>> recipes = new Loader<ArrayList<Recipes>>(mContext);
+
+
 
         switch (id) {
             case RECIPE_LOADER:
@@ -111,12 +121,35 @@ public class RecipesActivity extends AppCompatActivity implements LoaderManager.
             getContentResolver().insert(RecipesContract.RecipeEntry.CONTENT_URI, recipeContentValues);
             _cursor.close();
         }
+        progressbar_cyclic.setVisibility(View.GONE);
+
 
     }
 
     @Override
     public void onLoaderReset(Loader<ArrayList<Recipes>> loader) {
 
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+//respond to menu item selection
+        switch (item.getItemId()) {
+            case R.id.settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            default:
+                return true;
+        }
     }
 
 }

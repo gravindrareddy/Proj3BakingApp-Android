@@ -2,7 +2,6 @@ package redgun.bakingapp;
 
 import android.os.Parcel;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
 import android.util.Pair;
 
 import org.junit.Assert;
@@ -21,7 +20,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(AndroidJUnit4.class)
 public class RecipeIngredientUnitTest {
 
-    public static final float TEST_QUANITY = 1.0f;
+    public static final String TEST_QUANITY = "1.0";
     public static final String TEST_MEASURE = "kg";
     public static final String TEST_INGRIDIENT = "Rice";
     private RecipeIngredients mRecipeIngredients;
