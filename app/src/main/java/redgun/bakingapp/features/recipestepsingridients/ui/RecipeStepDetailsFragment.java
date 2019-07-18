@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,10 @@ import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
+import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -30,6 +33,7 @@ import java.util.ArrayList;
 
 import redgun.bakingapp.R;
 import redgun.bakingapp.models.RecipeSteps;
+import redgun.bakingapp.utilities.NetworkUtils;
 import redgun.bakingapp.utilities.Utils;
 
 
@@ -37,7 +41,7 @@ import redgun.bakingapp.utilities.Utils;
  * Created by Ravindra on 29-05-2017.
  */
 
-public class RecipeStepDetailsFragment extends Fragment{
+public class RecipeStepDetailsFragment extends Fragment {
     ImageView recipe_step_imageview;
     PlayerView recipe_step_videoview;
     TextView recipe_step_long_description_textview;
@@ -46,17 +50,14 @@ public class RecipeStepDetailsFragment extends Fragment{
     int currentPosition;
     Context mContext;
     Button recipe_step_button_left_button, recipe_step_button_right_button;
-    String TAG="RecipeStepDetailsFragment";
+    String TAG = "RecipeStepDetailsFragment";
 
     boolean playWhenReady;
     int currentWindow;
     long playbackPosition;
-
-
-
+    private ComponentListener componentListener = new ComponentListener();
 
     private SimpleExoPlayer player;
-    private ExoPlayer.EventListener exoPlayerEventListener;
 
     @Nullable
     @Override
@@ -76,8 +77,6 @@ public class RecipeStepDetailsFragment extends Fragment{
             recipeStepDetails = recipeStepsArrayList.get(currentPosition);
             populateContent();
         }
-        // ToDO - Play Video without RESUME on change in orientation
-
 
         recipe_step_button_left_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +99,7 @@ public class RecipeStepDetailsFragment extends Fragment{
                     currentPosition++;
                     recipeStepDetails = recipeStepsArrayList.get(currentPosition);
                     populateContent();
-                } else{
+                } else {
                     Utils.showToast(mContext, "This is the last step");
                 }
             }
@@ -138,18 +137,13 @@ public class RecipeStepDetailsFragment extends Fragment{
         player = ExoPlayerFactory.newSimpleInstance(
                 new DefaultRenderersFactory(mContext),
                 new DefaultTrackSelector(), new DefaultLoadControl());
-
+        player.addListener(componentListener);
         recipe_step_videoview.setPlayer(player);
-
         player.setPlayWhenReady(playWhenReady);
         player.seekTo(currentWindow, playbackPosition);
-
-
-        //Uri uri = Uri.parse(recipeStepDetails.getRecipeStepVideoURL());
         MediaSource mediaSource = buildMediaSource(mediaUri);
         player.prepare(mediaSource, true, false);
     }
-
 
 
     private MediaSource buildMediaSource(Uri uri) {
@@ -161,6 +155,7 @@ public class RecipeStepDetailsFragment extends Fragment{
     private void releasePlayer() {
         if (player != null) {
             player.stop();
+            player.removeListener(componentListener);
             player.release();
             player = null;
         }
@@ -176,11 +171,48 @@ public class RecipeStepDetailsFragment extends Fragment{
             //if(false){
             recipe_step_videoview.setVisibility(View.VISIBLE);
             recipe_step_imageview.setVisibility(View.GONE);
-            initializePlayer(Uri.parse(recipeStepDetails.getRecipeStepVideoURL()));
+            if (NetworkUtils.isOnline(mContext))
+                initializePlayer(Uri.parse(recipeStepDetails.getRecipeStepVideoURL()));
         } else {
             recipe_step_videoview.setVisibility(View.GONE);
             releasePlayer();
             recipe_step_imageview.setVisibility(View.VISIBLE);
         }
+    }
+
+    private class ComponentListener extends Player.DefaultEventListener {
+
+        @Override
+        public void onPlayerStateChanged(boolean playWhenReady,
+                                         int playbackState) {
+            String stateString;
+            switch (playbackState) {
+                case ExoPlayer.STATE_IDLE:
+                    stateString = "ExoPlayer.STATE_IDLE      -";
+                    break;
+                case ExoPlayer.STATE_BUFFERING:
+                    stateString = "ExoPlayer.STATE_BUFFERING -";
+                    break;
+                case ExoPlayer.STATE_READY:
+                    stateString = "ExoPlayer.STATE_READY     -";
+                    break;
+                case ExoPlayer.STATE_ENDED:
+                    stateString = "ExoPlayer.STATE_ENDED     -";
+                    break;
+                default:
+                    stateString = "UNKNOWN_STATE             -";
+                    break;
+            }
+            Log.d(TAG, "changed state to " + stateString
+                    + " playWhenReady: " + playWhenReady);
+        }
+
+        @Override
+        public void onPlayerError(ExoPlaybackException error) {
+            Utils.showToast(mContext, "Player has an issue. Sorry for the inconvenience");
+            releasePlayer();
+        }
+
+
     }
 }
