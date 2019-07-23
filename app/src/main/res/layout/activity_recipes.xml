@@ -11,13 +11,13 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recipes_recyclerview"
             android:layout_width="@dimen/recipe_recycler_width"
             android:layout_height="match_parent"
             android:background="@color/card_white"
             android:gravity="center"
-            android:padding="@dimen/app_padding_default"></android.support.v7.widget.RecyclerView>
+            android:padding="@dimen/app_padding_default"></androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 

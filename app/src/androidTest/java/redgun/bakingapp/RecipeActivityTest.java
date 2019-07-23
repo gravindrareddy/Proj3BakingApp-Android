@@ -1,8 +1,18 @@
 package redgun.bakingapp;
 
-import android.support.test.espresso.matcher.BoundedMatcher;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
+import android.content.Context;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+
+import androidx.loader.content.Loader;
+import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.ViewAssertion;
+import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.espresso.matcher.BoundedMatcher;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.runner.AndroidJUnit4;
 
 import org.hamcrest.Description;
 import org.hamcrest.FeatureMatcher;
@@ -11,16 +21,24 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+
+import redgun.bakingapp.data.RecipesProvider;
 import redgun.bakingapp.models.Recipes;
 import redgun.bakingapp.features.recipes.ui.RecipesActivity;
+import redgun.bakingapp.utilities.NetworkUtils;
 
-import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.openLinkWithUri;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.espresso.Espresso.onData;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.openLinkWithUri;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -32,55 +50,31 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 @RunWith(AndroidJUnit4.class)
 public class RecipeActivityTest {
+
+
     @Rule
-    public ActivityTestRule<RecipesActivity> mRecipeActivityTestRule = new ActivityTestRule<>(RecipesActivity.class);
+    public ActivityTestRule<RecipesActivity> activityScenarioRule =
+            new ActivityTestRule<RecipesActivity>(RecipesActivity.class);
 
     @Test
     public void clickRecipesRecyclerView() {
 
-        //onView(withId(R.id.recipes_recyclerview)).perform(click());
+        //Todo: Fetch data via Activity Loader
+//        RecipesActivity mRecipesActivity = new RecipesActivity();
+//        Context mContext = mRecipesActivity.getBaseContext();
+//        if (NetworkUtils.isOnline(mContext)) {
+//           // mRecipesActivity.getSupportLoaderManager().initLoader(1, null, ).forceLoad();
+//        }
+//        Loader<ArrayList<Recipes>> mRecipes = new Loader<ArrayList<Recipes>>(mRecipesActivity.getBaseContext());
+//        mRecipes = new RecipesProvider.FetchRecipes(mRecipesActivity.getBaseContext());
 
-        onData( allOf( instanceOf( Recipes.class), myCustomObjectShouldHaveString( "recipeName: Brownies")))
-                .perform(click());
 
-        // testing the result ... as in the longlist example
-        onView(withId(R.id.recipe_name_textview)).check(matches(withText("recipeName: Brownies")));
-        // ToDo: OnClick of item on Recipes List
-        // ToDo: Persist clicked item position
-        // ToDo: On next view, cross check whether the intended content exists or not
+
+        onView(ViewMatchers.withId(R.id.recipes_recyclerview))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withText("Recipe Introduction")).check(matches(isDisplayed()));
+
     }
 
 
-    public static Matcher<Object> myCustomObjectShouldHaveString(String expectedTest) {
-        return myCustomObjectShouldHaveString( equalTo( expectedTest));
-    }
-    private static Matcher<Object> myCustomObjectShouldHaveString(final Matcher<String> expectedObject) {
-        return new BoundedMatcher<Object, Recipes>( Recipes.class) {
-            @Override
-            public boolean matchesSafely(final Recipes actualObject) {
-                // next line is important ... requiring a String having an "equals" method
-                if( expectedObject.matches( actualObject.getRecipeName()) ) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            @Override
-            public void describeTo(final Description description) {
-                // could be improved, of course
-                description.appendText("recipe name should return ");
-            }
-        };
-    }
-
-
-
-    private static FeatureMatcher<Recipes, String> withRecipeName(final String recipeName) {
-        return new FeatureMatcher<Recipes, String>(equalTo(recipeName), "with Recipe Name", "recipeName") {
-            @Override
-            protected String featureValueOf(Recipes recipe) {
-                return recipe.getRecipeName();
-            }
-        };
-    }
 }

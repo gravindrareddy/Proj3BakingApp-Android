@@ -1,15 +1,11 @@
 package redgun.bakingapp;
 
 import android.os.Parcel;
-import android.support.test.runner.AndroidJUnit4;
-import android.util.Pair;
+import androidx.test.runner.AndroidJUnit4;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.List;
 
 import redgun.bakingapp.models.RecipeIngredients;
 

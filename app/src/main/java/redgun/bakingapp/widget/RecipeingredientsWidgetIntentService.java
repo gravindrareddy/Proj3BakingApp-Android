@@ -1,9 +1,8 @@
 package redgun.bakingapp.widget;
 
 import android.app.IntentService;
-import android.app.Notification;
 import android.content.Intent;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * Created by Ravindra on 13-06-2017.

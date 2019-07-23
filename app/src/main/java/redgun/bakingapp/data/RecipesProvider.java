@@ -24,9 +24,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.os.Looper;
-import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.content.CursorLoader;
+
+import androidx.loader.content.AsyncTaskLoader;
+
 import android.util.Log;
 
 import com.google.gson.Gson;

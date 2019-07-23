@@ -12,7 +12,7 @@ import android.preference.PreferenceFragment;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.support.v7.app.ActionBar;
+import androidx.appcompat.app.ActionBar;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 
@@ -23,8 +23,6 @@ import redgun.bakingapp.R;
 import redgun.bakingapp.data.RecipesProvider;
 import redgun.bakingapp.models.Recipes;
 import redgun.bakingapp.widget.WidgetIntentService;
-
-import static redgun.bakingapp.features.recipes.ui.RecipesActivity.recipesList;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On

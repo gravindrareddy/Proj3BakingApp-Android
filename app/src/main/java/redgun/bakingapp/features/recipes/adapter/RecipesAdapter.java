@@ -4,7 +4,7 @@ package redgun.bakingapp.features.recipes.adapter;
  * Created by Ravindra on 01-06-2017.
  */
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
